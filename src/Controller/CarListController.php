@@ -6,9 +6,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\GenericListController;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Cars;
+use App\class\GenericSetDataInterFace;
 
-
-class CarListController extends GenericListController
+class CarListController extends GenericListController implements GenericSetDataInterFace
 {
     private string $car;
     #[Route('/car/list/{car}', name: 'app_cars_list')]
@@ -24,7 +24,7 @@ class CarListController extends GenericListController
         $this->setTwig('generic_list/index.html.twig');
     }
 
-    protected function on_query_set($entityManager) : array
+    public function onQuerySet($entityManager) : array
     {
         return $entityManager->getCarByName($this->car);
     }

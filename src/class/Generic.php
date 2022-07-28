@@ -2,6 +2,7 @@
 namespace App\class;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Response;
+
 trait Generic{
 
     private $entity=NULL;
@@ -11,9 +12,8 @@ trait Generic{
     {
         $this->setData();
         $this->chcekData();
-        $this->get_objects($doctrine);
         return $this->render($this->twing, [
-            'object' => $this->get_objects($doctrine)
+            'object' => $this->getObjects($doctrine)
         ]);
     }
 
@@ -36,15 +36,15 @@ trait Generic{
         $this->twing= $twing;
     }
 
-    private function get_objects(Registry $doctrine): array
+    private function getObjects(Registry $doctrine)
     {
         $entityManager = $doctrine->getManager();
-        return $this->preaper_query_set($entityManager);
+        return $this->preaperQuerySet($entityManager);
     }
 
-    private function preaper_query_set($entityManager)
+    private function preaperQuerySet($entityManager)
     {
-        return $this->on_query_set($entityManager->getRepository($this->entity));
+        return $this->onQuerySet($entityManager->getRepository($this->entity));
     }
     
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -8,8 +7,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Controller\GenericDetailController;
 use App\Entity\Cars;
+use App\class\GenericSetDataInterFace;
 
-class CarDetailController extends GenericDetailController
+class CarDetailController extends GenericDetailController implements GenericSetDataInterFace
 {
     #[Route('/car/detail/{id}', name: 'app_car_detail')]
     public function index(int $id,ManagerRegistry $doctrine): Response

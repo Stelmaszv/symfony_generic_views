@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,7 +16,7 @@ abstract class GenericListController extends AbstractController implements Gener
         return $this->baseView($doctrine);
     }
 
-    protected function on_query_set($entityManager) : array
+    public function onQuerySet(ServiceEntityRepository $entityManager)
     {
         return $entityManager->findAll();
     }
