@@ -21,6 +21,17 @@ class CarsRepository extends ServiceEntityRepository
         parent::__construct($registry, Cars::class);
     }
 
+    public function getCarByName(string $value): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.name = :val')
+            ->setParameter('val', $value)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function add(Cars $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
