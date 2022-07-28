@@ -7,14 +7,28 @@ trait Generic{
 
     private $entity=NULL;
     private string $twing='';
+    private array $attributes=[];
 
     protected function baseView(Registry $doctrine) : Response
     {
         $this->setData();
         $this->chcekData();
-        return $this->render($this->twing, [
+        return $this->render($this->twing, $this->addAttributes($doctrine));
+    }
+    
+    protected function onSetAttribut() :array
+    {
+        return [];
+    }
+
+    private function addAttributes(Registry $doctrine) :array
+    {
+        
+        $this->attributes = [
             'object' => $this->getObjects($doctrine)
-        ]);
+        ];
+
+        return array_merge($this->attributes, $this->onSetAttribut());
     }
 
     private function chcekData() :void

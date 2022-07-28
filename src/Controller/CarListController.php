@@ -29,5 +29,12 @@ class CarListController extends GenericListController implements GenericSetDataI
         return $entityManager->getCarByName($this->car);
     }
 
+    protected function onSetAttribut() :array
+    {
+        return  [
+            'viewNmae' => 'viewNmae'
+        ];
+    }
+
 
 }
