@@ -5,8 +5,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\class\Generic;
+use App\class\GenericInterFace;
 
-abstract class GenericListController extends AbstractController
+abstract class GenericListController extends AbstractController implements GenericInterFace
 { 
     use Generic;
     protected function listView(ManagerRegistry $doctrine): Response
@@ -18,7 +19,5 @@ abstract class GenericListController extends AbstractController
     {
         return $entityManager->findAll();
     }
-
-    abstract protected function setData(): void;
 
 }

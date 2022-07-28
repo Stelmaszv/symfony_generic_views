@@ -18,7 +18,7 @@ class CarListController extends GenericListController
         return $this->listView($doctrine);
     }
 
-    protected function setData(): void
+    public function setData(): void
     {
         $this->setEntity(Cars::class);
         $this->setTwig('generic_list/index.html.twig');

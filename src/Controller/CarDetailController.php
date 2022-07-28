@@ -17,7 +17,7 @@ class CarDetailController extends GenericDetailController
         return $this->detailView($id,$doctrine);
     }
 
-    protected function setData(): void
+    public function setData(): void
     {
         $this->setEntity(Cars::class);
         $this->setTwig('car_detail/index.html.twig');

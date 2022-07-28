@@ -9,8 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Cars;
 use App\class\Generic;
+use App\class;
+use App\class\GenericInterFace;
 
-abstract class GenericDetailController extends AbstractController
+abstract class GenericDetailController extends AbstractController implements GenericInterFace
 {
     use Generic;
     private int $id;
@@ -26,6 +28,4 @@ abstract class GenericDetailController extends AbstractController
     {
         return $entityManager->find($this->id);
     }
-
-    abstract protected function setData(): void;
 }
