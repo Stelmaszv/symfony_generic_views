@@ -10,9 +10,11 @@ use App\Entity\Cars;
 
 class CarListController extends GenericListController
 {
-    #[Route('/car/list', name: 'app_cars_list')]
-    public function index(ManagerRegistry $doctrine): Response
+    private string $car;
+    #[Route('/car/list/{car}', name: 'app_cars_list')]
+    public function index(ManagerRegistry $doctrine,string $car): Response
     {
+        $this->car=$car;
         return $this->listView($doctrine);
     }
 
@@ -24,7 +26,8 @@ class CarListController extends GenericListController
 
     protected function on_query_set($entityManager) : array
     {
-        return $entityManager->getCarByName('1');
+        return $entityManager->getCarByName($this->car);
     }
+
 
 }
