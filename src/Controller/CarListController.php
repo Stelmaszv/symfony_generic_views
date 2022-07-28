@@ -3,10 +3,10 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\GenericListController;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Generic\GenericListController;
+use App\Generic\GenericSetDataInterFace;
 use App\Entity\Cars;
-use App\class\GenericSetDataInterFace;
+use Doctrine\Persistence\ManagerRegistry;
 
 class CarListController extends GenericListController implements GenericSetDataInterFace
 {

@@ -1,5 +1,5 @@
 <?php
-namespace App\class;
+namespace App\Generic;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -1,13 +1,12 @@
 <?php
-namespace App\Controller;
+namespace App\Generic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Cars;
-use App\class\Generic;
-use App\class\GenericInterFace;
+use App\Generic\Generic;
+use App\Generic\GenericInterFace;
 
 class GenericDetailController extends AbstractController implements GenericInterFace
 {

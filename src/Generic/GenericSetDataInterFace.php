@@ -1,5 +1,5 @@
 <?php
-namespace App\class;
+namespace App\Generic;
 interface GenericSetDataInterFace{
     public function setData(): void;
 }
