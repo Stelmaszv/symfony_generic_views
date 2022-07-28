@@ -8,7 +8,6 @@ use App\Entity\Cars;
 
 abstract class GenericListController extends AbstractController
 { 
-    private string $controlerName='';
     private $entity=NULL;
     private string $twing='';
 
