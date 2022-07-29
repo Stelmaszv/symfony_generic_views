@@ -19,6 +19,6 @@ class CarDetailController extends GenericDetailController implements GenericSetD
     public function setData(): void
     {
         $this->setEntity(Cars::class);
-        $this->setTwig('car_detail/index.html.twig');
+        $this->setTwig('car/car_detail.twig');
     }
 }

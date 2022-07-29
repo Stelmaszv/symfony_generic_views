@@ -33,7 +33,7 @@ class CarListController extends GenericListController implements GenericSetDataI
     public function setData(): void
     {
         $this->setEntity(Cars::class);
-        $this->setTwig('generic_list/index.html.twig');
+        $this->setTwig('car/car_list.html.twig');
     }
 
     protected function onSetAttribut() :array
