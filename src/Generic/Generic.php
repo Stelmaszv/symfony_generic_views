@@ -21,6 +21,11 @@ trait Generic{
         return [];
     }
 
+    protected function return_url_arguments():array
+    {
+        return explode("/", $_SERVER['REQUEST_URI']);
+    }
+
     private function addAttributes(Registry $doctrine) :array
     {
         

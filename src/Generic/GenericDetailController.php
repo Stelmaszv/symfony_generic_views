@@ -2,7 +2,6 @@
 namespace App\Generic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Generic;
@@ -13,7 +12,7 @@ class GenericDetailController extends AbstractController implements GenericInter
     use Generic;
     private int $id;
 
-    protected function detailView(int $id,ManagerRegistry $doctrine): Response
+    public function detailView(ManagerRegistry $doctrine,int $id): Response
     {
         $this->id=$id;
         return $this->baseView($doctrine);

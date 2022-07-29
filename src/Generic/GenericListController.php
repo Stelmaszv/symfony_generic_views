@@ -2,7 +2,6 @@
 namespace App\Generic;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Generic;
@@ -19,7 +18,7 @@ abstract class GenericListController extends AbstractController implements Gener
     private request $request;
 
 
-    protected function listView(ManagerRegistry $doctrine,Request $request, PaginatorInterface $paginator): Response
+    public function listView(ManagerRegistry $doctrine,Request $request, PaginatorInterface $paginator): Response
     {
         $this->request=$request;
         $this->paginator=$paginator;

@@ -1,3 +1,33 @@
+CarEdit:
+    path:   /car/edit/{id}
+    controller: App\Controller\CarEditController::index
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
+CarList:
+    path:   /car/list/{car}
+    controller: App\Controller\CarListController::listView
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
+CarDetail:
+    path:   /car/detail/{id}
+    controller: App\Controller\CarDetailController::detailView
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
 controllers:
     resource: ../src/Controller/
     type: annotation
