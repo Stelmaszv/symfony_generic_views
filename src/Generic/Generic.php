@@ -60,5 +60,4 @@ trait Generic{
     {
         return $this->onQuerySet($entityManager->getRepository($this->entity));
     }
-    
 }

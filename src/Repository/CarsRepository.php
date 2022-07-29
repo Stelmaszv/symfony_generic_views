@@ -24,12 +24,12 @@ class CarsRepository extends ServiceEntityRepository
     public function getCarByName(string $value): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.name = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult();
+        ->andWhere('c.name = :val')
+        ->setParameter('val', $value)
+        ->orderBy('c.id', 'ASC')
+        ->setMaxResults(10)
+        ->getQuery()
+        ->getResult();
     }
 
     public function add(Cars $entity, bool $flush = false): void

@@ -11,6 +11,9 @@ use App\Generic\GenericInterFace;
 abstract class GenericListController extends AbstractController implements GenericInterFace
 { 
     use Generic;
+
+    protected int $per_page = 2;
+
     protected function listView(ManagerRegistry $doctrine): Response
     {
         return $this->baseView($doctrine);
@@ -20,5 +23,17 @@ abstract class GenericListController extends AbstractController implements Gener
     {
         return $entityManager->findAll();
     }
+
+    private function preaperQuerySet($entityManager)
+    {
+       $data= $entityManager->getRepository($this->entity);
+       $query = $this->onQuerySet($data);
+       return $this->paginator->paginate(
+            $query,
+            $this->request->query->getInt('page', 1),
+            5
+        );
+    }
+
 
 }
