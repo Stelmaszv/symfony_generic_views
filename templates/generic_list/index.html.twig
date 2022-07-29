@@ -1,16 +1,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>My Application</title>
+        <title>{{title}}</title>
     </head>
     <body>
         <ul>
         {% for el in object %}
             <li>{{ el.name }}</li>
         {% endfor %}
-
         </ul>
-        
         <div class="navigation">
             {{ knp_pagination_render(object) }}
         </div>
