@@ -24,13 +24,16 @@ class GenericFormController extends AbstractController
         if ($form->isSubmitted()){
             $this->onSubmittedTrue();
             if ($form->isValid()){
+                $this->onBeforeValid();
                 $this->onValid();
+                $this->onAfterValid();
             }else{
                 $this->onInValid();
             }
         }else{
             $this->onSubmittedFalse();
         }
+
         return $this->render($this->twing, $this->addAttributes($form));
     }
 
@@ -58,6 +61,10 @@ class GenericFormController extends AbstractController
     protected function setForm(string $form){
         $this->form= $form;
     }
+
+    protected function onAfterValid():void{}
+
+    protected function onBeforeValid():void{}
 
     protected function onSubmittedTrue():void{}
 
