@@ -8,6 +8,16 @@ CarEdit:
       _format:  html|rss
       year:     \d+
 
+Form:
+    path:   /form
+    controller: App\Controller\FormController::form
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
 CarList:
     path:   /car/list/{car}
     controller: App\Controller\CarListController::listView
