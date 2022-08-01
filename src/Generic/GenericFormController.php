@@ -29,7 +29,7 @@ class GenericFormController extends AbstractController
             if ($form->isValid()){
                 $this->onBeforeValid();
                 $this->onValid();
-                $this->onAfterValid($form);
+                $this->onAfterValid($form,$this->entity);
                 if ($this->sucess){
                     return $this->extuteSucessUrl();
                 }
@@ -41,10 +41,6 @@ class GenericFormController extends AbstractController
         }
 
         return $this->render($this->twing, $this->addAttributes($form));
-    }
-
-    protected function getForm($entity,$request){
-        return $this->createForm($this->form);
     }
 
     private function extuteSucessUrl(){
@@ -72,16 +68,20 @@ class GenericFormController extends AbstractController
         return array_merge($this->attributes, $this->onSetAttribut());
     }
 
+    protected function getForm($entity,$request){
+        return $this->createForm($this->form);
+    }
+
     protected function setForm(string $form){
         $this->form= $form;
     }
 
     protected function setSucess(string $url,array $arguments){
-        $this->sucess['url']='CarDetail';
+        $this->sucess['url']=$url;
         $this->sucess['arguments']=$arguments;
     }
 
-    protected function onAfterValid($form){}
+    protected function onAfterValid($form,$entity){}
 
     protected function onBeforeValid():void{}
 

@@ -1,3 +1,13 @@
+AddCar:
+    path:   /add/car
+    controller: App\Controller\AddCarController::form
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
 CarEdit:
     path:   /car/edit/{id}
     controller: App\Controller\CarEditController::form
@@ -18,7 +28,7 @@ Form:
       _format:  html|rss
       year:     \d+
 
-CarList:
+Cars:
     path:   /car/list/{car}
     controller: App\Controller\CarListController::listView
     defaults:

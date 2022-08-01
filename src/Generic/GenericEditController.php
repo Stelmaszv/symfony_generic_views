@@ -34,7 +34,7 @@ class GenericEditController extends GenericFormController
         return $this->createForm($this->form, $this->getEntity($entity,$request->get('id')));
     }
 
-    protected function onAfterValid($form)
+    protected function onAfterValid($form,$entity)
     {
         $this->onBeforeSave();
         $em = $this->doctrine->getManager();
@@ -42,7 +42,6 @@ class GenericEditController extends GenericFormController
         $em->persist($categoryData);
         $em->flush();
         $this->onAfterSaveSave();
-
     }
 
     protected function onAfterSaveSave():void{}

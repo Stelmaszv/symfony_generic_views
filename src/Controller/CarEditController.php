@@ -15,12 +15,12 @@ class CarEditController extends GenericEditController implements GenericSetDataI
         $this->setForm(Car::class);
         $this->setTwig('car/form.twig');
         $this->setEntity(Cars::class);
-        $this->setSucess('CarDetail',["id"=>$this->return_url_arguments()[3]]);
+        $this->setSucess('CarDetail',[
+            "id"=>$this->return_url_arguments()[3]
+        ]);
         $this->addFlash(
             'notice',
             'Your changes were saved!'
         );
     }
-
-
 }
