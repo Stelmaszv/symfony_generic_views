@@ -7,26 +7,32 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form as SymfonyForm;
+use Doctrine\Persistence\ManagerRegistry;
 use App\Forms\Car;
+use App\Entity\Cars;
 
 class GenericFormController extends AbstractController
 {
-    private string $form='';
+    protected string $form='';
+    private array $sucess=[];
 
     use Generic;
-    public function form(Request $request): Response
-    {
+    public function form(Request $request,ManagerRegistry $doctrine): Response
+    {  
+        $this->doctrine=$doctrine;
         $this->setData();
         $this->chcekData();
-        $form = $this->createForm($this->form, null);
-        $form->handleRequest($request);
+        $form=$this->getForm($this->entity,$request)->handleRequest($request);
 
         if ($form->isSubmitted()){
             $this->onSubmittedTrue();
             if ($form->isValid()){
                 $this->onBeforeValid();
                 $this->onValid();
-                $this->onAfterValid();
+                $this->onAfterValid($form);
+                if ($this->sucess){
+                    return $this->extuteSucessUrl();
+                }
             }else{
                 $this->onInValid();
             }
@@ -35,6 +41,14 @@ class GenericFormController extends AbstractController
         }
 
         return $this->render($this->twing, $this->addAttributes($form));
+    }
+
+    protected function getForm($entity,$request){
+        return $this->createForm($this->form);
+    }
+
+    private function extuteSucessUrl(){
+        return $this->redirectToRoute($this->sucess['url'],$this->sucess['arguments']); 
     }
 
     private function chcekData() :void
@@ -62,7 +76,12 @@ class GenericFormController extends AbstractController
         $this->form= $form;
     }
 
-    protected function onAfterValid():void{}
+    protected function setSucess(string $url,array $arguments){
+        $this->sucess['url']='CarDetail';
+        $this->sucess['arguments']=$arguments;
+    }
+
+    protected function onAfterValid($form){}
 
     protected function onBeforeValid():void{}
 

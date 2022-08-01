@@ -47,7 +47,7 @@ trait Generic{
         }
     }
 
-    protected function setEntity(string $Entity){
+    protected function setEntity($Entity){
         $this->entity= $Entity;
     }
 

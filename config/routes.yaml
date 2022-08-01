@@ -1,6 +1,6 @@
 CarEdit:
     path:   /car/edit/{id}
-    controller: App\Controller\CarEditController::index
+    controller: App\Controller\CarEditController::form
     defaults:
       _format: html
     requirements:

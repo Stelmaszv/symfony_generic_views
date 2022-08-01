@@ -4,7 +4,23 @@ namespace App\Controller;
 use App\Generic\GenericEditController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\GenericSetDataInterFace;
+use App\Forms\Car;
+use App\Entity\Cars;
 
-class CarEditController extends GenericEditController
+class CarEditController extends GenericEditController implements GenericSetDataInterFace
 {
+    public function setData(): void
+    {
+        $this->setForm(Car::class);
+        $this->setTwig('car/form.twig');
+        $this->setEntity(Cars::class);
+        $this->setSucess('CarDetail',["id"=>$this->return_url_arguments()[3]]);
+        $this->addFlash(
+            'notice',
+            'Your changes were saved!'
+        );
+    }
+
+
 }
