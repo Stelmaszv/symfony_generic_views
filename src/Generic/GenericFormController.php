@@ -23,14 +23,14 @@ class GenericFormController extends AbstractController
         $this->request=$request;
         $this->setData();
         $this->chcekData();
-        $form=$this->getForm($this->entity,$request)->handleRequest($request);
+        $form=$this->getForm($request)->handleRequest($request);
 
         if ($form->isSubmitted()){
             $this->onSubmittedTrue();
             if ($form->isValid()){
                 $this->onBeforeValid();
                 $this->onValid();
-                $this->onAfterValid($form,$this->entity);
+                $this->onAfterValid($form);
                 if ($this->sucess){
                     return $this->extuteSucessUrl();
                 }
@@ -69,12 +69,7 @@ class GenericFormController extends AbstractController
         return array_merge($this->attributes, $this->onSetAttribut());
     }
 
-    protected function onSetAttribut():array
-    {
-        return [];
-    }
-
-    protected function getForm($entity,$request){
+    protected function getForm(){
         return $this->createForm($this->form);
     }
 
@@ -87,7 +82,12 @@ class GenericFormController extends AbstractController
         $this->sucess['arguments']=$arguments;
     }
 
-    protected function onAfterValid($form,$entity){}
+    protected function onSetAttribut():array
+    {
+        return [];
+    }
+
+    protected function onAfterValid($form){}
 
     protected function onBeforeValid():void{}
 

@@ -1,3 +1,13 @@
+CarDelete:
+    path:   /delete/car/{id}
+    controller: App\Controller\DeleteCarController::Delete
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
 AddCar:
     path:   /add/car
     controller: App\Controller\AddCarController::form

@@ -10,9 +10,9 @@ use App\Entity\Cars;
 
 class GenericEditController extends GenericFormController
 {
-    protected function getEntity($entity,int $id)
+    protected function getQuery(int $id)
     {
-        return $this->doctrine->getManager()->getRepository($entity)->find($id); 
+        return $this->doctrine->getManager()->getRepository($this->getEntity())->find($id); 
     }
 
     private function chcekData() :void
@@ -30,11 +30,11 @@ class GenericEditController extends GenericFormController
         }
     }
 
-    protected function getForm($entity,$request){
-        return $this->createForm($this->form, $this->getEntity($entity,$request->get('id')));
+    protected function getForm(){
+        return $this->createForm($this->form, $this->getQuery($this->returnUrlArguments('id')));
     }
 
-    protected function onAfterValid($form,$entity)
+    protected function onAfterValid($form)
     {
         $this->onBeforeSave();
         $em = $this->doctrine->getManager();

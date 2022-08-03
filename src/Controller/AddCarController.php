@@ -15,7 +15,6 @@ class AddCarController extends GenericCreateController implements GenericSetData
         $this->setForm(Car::class);
         $this->setTwig('car/form.twig');
         $this->setEntity(new Cars());
-        $this->setSucess('Cars',["car"=>"geg"]);
     }
 
     protected function onAfterSaveSave():void
@@ -24,5 +23,6 @@ class AddCarController extends GenericCreateController implements GenericSetData
             'notice',
             'Your car has been addad!'
         );
+        $this->createdUrl('CarDetail');
     }
 }

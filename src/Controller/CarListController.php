@@ -9,15 +9,7 @@ class CarListController extends GenericListController implements GenericSetDataI
 {
     private string $car;
     protected int $per_page = 10;
-
-    /*
-    public function onQuerySet(ServiceEntityRepository $entityManager)
-    {
-        
-        return $entityManager->getCarByName($this->return_url_arguments()[3]);
-    }
-    */
-
+    
     public function setData(): void
     {
         $this->setEntity(Cars::class);
