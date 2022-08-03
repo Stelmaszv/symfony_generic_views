@@ -8,9 +8,11 @@ trait Generic{
     private $entity=NULL;
     private string $twing='';
     private array $attributes=[];
+    protected Registry $doctrine;
 
     protected function baseView(Registry $doctrine) : Response
     {
+        $this->doctrine=$doctrine;
         $this->setData();
         $this->chcekData();
         return $this->render($this->twing, $this->addAttributes($doctrine));
@@ -21,7 +23,7 @@ trait Generic{
         return [];
     }
 
-    protected function return_url_arguments():array
+    protected function returnUrlArguments():array
     {
         return explode("/", $_SERVER['REQUEST_URI']);
     }
@@ -30,7 +32,7 @@ trait Generic{
     {
         
         $this->attributes = [
-            'object' => $this->getObjects($doctrine)
+            'object' => $this->getObjects()
         ];
 
         return array_merge($this->attributes, $this->onSetAttribut());
@@ -55,10 +57,9 @@ trait Generic{
         $this->twing= $twing;
     }
 
-    private function getObjects(Registry $doctrine)
+    private function getObjects()
     {
-        $entityManager = $doctrine->getManager();
-        return $this->preaperQuerySet($entityManager);
+        return $this->preaperQuerySet($this->doctrine->getManager());
     }
 
     private function preaperQuerySet($entityManager)

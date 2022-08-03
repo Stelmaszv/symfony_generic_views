@@ -16,7 +16,7 @@ class CarEditController extends GenericEditController implements GenericSetDataI
         $this->setTwig('car/form.twig');
         $this->setEntity(Cars::class);
         $this->setSucess('CarDetail',[
-            "id"=>$this->return_url_arguments()[3]
+            "id"=>$this->returnUrlArguments()[3]
         ]);
         $this->addFlash(
             'notice',

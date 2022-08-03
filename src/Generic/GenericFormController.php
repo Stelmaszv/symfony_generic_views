@@ -68,6 +68,11 @@ class GenericFormController extends AbstractController
         return array_merge($this->attributes, $this->onSetAttribut());
     }
 
+    protected function onSetAttribut():array
+    {
+        return [];
+    }
+
     protected function getForm($entity,$request){
         return $this->createForm($this->form);
     }
