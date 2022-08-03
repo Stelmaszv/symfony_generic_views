@@ -1,16 +1,14 @@
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-    </head>
-    <body>
-        <ul>
-        {% for el in object %}
-            <li>{{ el.name }}</li>
-        {% endfor %}
-        </ul>
-        <div class="navigation">
-            {{ knp_pagination_render(object) }}
-        </div>
-    </body>
-</html>
+{% extends 'base.html.twig' %}
+{% block title %}{{title}}{% endblock %}
+{% block body %}
+<ul>
+    {% for el in object %}
+         <a href="{{path('CarEdit',{id:el.id})}}">
+            <li>
+                {{ el.name }}
+            </li>
+            </a>
+    {% endfor %}
+</ul>
+{{ knp_pagination_render(object) }}
+{% endblock %}

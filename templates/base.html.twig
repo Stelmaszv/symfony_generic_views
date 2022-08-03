@@ -14,6 +14,14 @@
         {% endblock %}
     </head>
     <body>
+        <h1>Cars</h1>
+        <a href="{{path('AddCar')}}">Add Car</a>
+        <a href="{{path('Cars')}}">Cars</a>
+        {% for message in app.flashes('notice') %}
+            <div class="flash-notice">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% block body %}{% endblock %}
     </body>
 </html>

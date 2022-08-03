@@ -1,6 +1,7 @@
-{% for message in app.flashes('notice') %}
-    <div class="flash-notice">
-        {{ message }}
-    </div>
-{% endfor %}
+{% extends 'base.html.twig' %}
+{% block title %}{{object.name}}{% endblock %}
+{% block body %}
+<a href="{{path('CarEdit',{id:object.id})}}">Edit</a>
+<br>
 {{object.name}}
+{% endblock %}

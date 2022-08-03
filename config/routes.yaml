@@ -29,7 +29,7 @@ Form:
       year:     \d+
 
 Cars:
-    path:   /car/list/{car}
+    path:   /car/list
     controller: App\Controller\CarListController::listView
     defaults:
       _format: html

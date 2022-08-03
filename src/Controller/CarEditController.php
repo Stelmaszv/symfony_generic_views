@@ -18,6 +18,10 @@ class CarEditController extends GenericEditController implements GenericSetDataI
         $this->setSucess('CarDetail',[
             "id"=>$this->returnUrlArguments()[3]
         ]);
+    }
+
+    protected function onAfterSaveSave():void
+    {
         $this->addFlash(
             'notice',
             'Your changes were saved!'
