@@ -15,14 +15,11 @@ abstract class GenericListController extends AbstractController implements Gener
 
     protected int $per_page = 5;
     private PaginatorInterface $paginator;
-    private request $request;
-
 
     public function listView(ManagerRegistry $doctrine,Request $request, PaginatorInterface $paginator): Response
     {
-        $this->request=$request;
         $this->paginator=$paginator;
-        return $this->baseView($doctrine);
+        return $this->baseView($doctrine,$request);
     }
 
     public function onQuerySet(ServiceEntityRepository $entityManager)

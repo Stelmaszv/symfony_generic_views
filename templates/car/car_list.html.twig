@@ -3,7 +3,7 @@
 {% block body %}
 <ul>
     {% for el in object %}
-         <a href="{{path('CarEdit',{id:el.id})}}">
+         <a href="{{path('CarDetail',{id:el.id})}}">
             <li>
                 {{ el.name }}
             </li>

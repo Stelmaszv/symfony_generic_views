@@ -17,4 +17,12 @@ class AddCarController extends GenericCreateController implements GenericSetData
         $this->setEntity(new Cars());
         $this->setSucess('Cars',["car"=>"geg"]);
     }
+
+    protected function onAfterSaveSave():void
+    {
+        $this->addFlash(
+            'notice',
+            'Your car has been addad!'
+        );
+    }
 }

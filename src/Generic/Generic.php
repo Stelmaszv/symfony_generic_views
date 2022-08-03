@@ -2,6 +2,7 @@
 namespace App\Generic;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 trait Generic{
 
@@ -9,9 +10,11 @@ trait Generic{
     private string $twing='';
     private array $attributes=[];
     protected Registry $doctrine;
+    protected Request $request;
 
-    protected function baseView(Registry $doctrine) : Response
+    protected function baseView(Registry $doctrine,Request $request) : Response
     {
+        $this->request=$request;
         $this->doctrine=$doctrine;
         $this->setData();
         $this->chcekData();
@@ -23,9 +26,9 @@ trait Generic{
         return [];
     }
 
-    protected function returnUrlArguments():array
+    protected function returnUrlArguments(string $argumant):string
     {
-        return explode("/", $_SERVER['REQUEST_URI']);
+        return $this->request->attributes->get($argumant);
     }
 
     private function addAttributes(Registry $doctrine) :array

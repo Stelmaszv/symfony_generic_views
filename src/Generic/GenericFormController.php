@@ -15,11 +15,12 @@ class GenericFormController extends AbstractController
 {
     protected string $form='';
     private array $sucess=[];
-
+    
     use Generic;
     public function form(Request $request,ManagerRegistry $doctrine): Response
     {  
         $this->doctrine=$doctrine;
+        $this->request=$request;
         $this->setData();
         $this->chcekData();
         $form=$this->getForm($this->entity,$request)->handleRequest($request);
