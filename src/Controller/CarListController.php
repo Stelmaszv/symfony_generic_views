@@ -9,11 +9,17 @@ class CarListController extends GenericListController implements GenericSetDataI
 {
     private string $car;
     protected int $per_page = 10;
+    protected bool $paginate = true;
     
     public function setData(): void
     {
         $this->setEntity(Cars::class);
         $this->setTwig('car/car_list.html.twig');
+    }
+
+    public function onQuerySet(ServiceEntityRepository $entityManager)
+    {
+        return $entityManager->getCarByName($this->returnUrlArguments('car'));
     }
 
     protected function onSetAttribut() :array

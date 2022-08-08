@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class GenericListController extends AbstractController implements GenericInterFace
 { 
     use Generic;
-    protected bool $paginate = true;
+    protected bool $paginate = false;
     protected int $per_page = 5;
     private PaginatorInterface $paginator;
 
@@ -29,7 +29,6 @@ abstract class GenericListController extends AbstractController implements Gener
 
     private function preaperQuerySet($entityManager)
     {
-
        $data= $entityManager->getRepository($this->entity);
        $query = $this->onQuerySet($data);
        if ($this->paginate){
