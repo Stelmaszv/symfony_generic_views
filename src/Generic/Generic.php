@@ -6,11 +6,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 trait Generic{
 
-    private $entity=NULL;
-    private string $twing='';
     private array $attributes=[];
     protected Registry $doctrine;
     protected Request $request;
+    protected $entity = NULL;
+    protected string $twing = '';
 
     protected function baseView(Registry $doctrine,Request $request) : Response
     {

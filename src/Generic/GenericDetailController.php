@@ -9,7 +9,7 @@ use App\Generic\Generic;
 use App\Generic\GenericInterFace;
 
 
-class GenericDetailController extends AbstractController implements GenericInterFace
+class GenericDetailController extends AbstractController implements GenericInterFace, GenericSetDataInterFace
 {
     use Generic;
     private int $id;
@@ -24,4 +24,7 @@ class GenericDetailController extends AbstractController implements GenericInter
     {
         return $entityManager->find($this->id);
     }
+
+    public function setData(): void {}
 }
+

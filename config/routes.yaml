@@ -38,9 +38,9 @@ Form:
       _format:  html|rss
       year:     \d+
 
-Cars:
-    path:   /car/list/{car}
-    controller: App\Controller\CarListController::listView
+CarDetail:
+    path:   /car/detail/{id}
+    controller: App\Controller\CarDetailController::detailView
     defaults:
       _format: html
     requirements:
@@ -48,9 +48,9 @@ Cars:
       _format:  html|rss
       year:     \d+
 
-CarDetail:
-    path:   /car/detail/{id}
-    controller: App\Controller\CarDetailController::detailView
+Cars:
+    path:   /cars/list
+    controller: App\Controller\CarListController::listView
     defaults:
       _format: html
     requirements:

@@ -14,7 +14,7 @@ use App\Entity\Cars;
 class GenericFormController extends AbstractController
 {
     protected string $form='';
-    private array $sucess=[];
+    private array $sucess = [];
     
     use Generic;
     public function form(Request $request,ManagerRegistry $doctrine): Response
@@ -78,8 +78,8 @@ class GenericFormController extends AbstractController
     }
 
     protected function setSucess(string $url,array $arguments){
-        $this->sucess['url']=$url;
-        $this->sucess['arguments']=$arguments;
+        $this->sucess['url'] = $url;
+        $this->sucess['arguments'] = $arguments;
     }
 
     protected function onSetAttribut():array

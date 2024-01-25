@@ -42,5 +42,5 @@ abstract class GenericListController extends AbstractController implements Gener
       }
     }
 
-
+    public function setData(): void {}
 }

@@ -4,11 +4,8 @@ use App\Entity\Cars;
 use App\Generic\GenericDetailController;
 use App\Generic\GenericSetDataInterFace;
 
-class CarDetailController extends GenericDetailController implements GenericSetDataInterFace
+class CarDetailController extends GenericDetailController
 {
-    public function setData(): void
-    {
-        $this->setEntity(Cars::class);
-        $this->setTwig('car/car_detail.twig');
-    }
+    protected $entity = Cars::class;
+    protected string $twing = 'car/car_detail.twig';
 }

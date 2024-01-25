@@ -2,37 +2,51 @@
 
 namespace App\Generic;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Cars;
+
+use App\Generic\Generic;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Generic\Generic;
-use App\Entity\Cars;
 use Doctrine\Persistence\ManagerRegistry as SymRegistry;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class GenericDeleteController extends AbstractController
+class GenericDeleteController extends AbstractController implements GenericSetDataInterFace
 {
     use Generic;
-    public function Delete(SymRegistry $doctrine,int $id): Response
+    private array $sucess = [];
+
+    public function delete(SymRegistry $doctrine,int $id): Response
     {
         $this->setData();
-        $data=$doctrine->getManager()->getRepository($this->getEntity())->find($id); 
+
+        $data = $doctrine->getManager()->getRepository($this->getEntity())->find($id);
+    
+        if (!$data) {
+            return new Response('Object not found.', 404);
+        }
+    
         $entityManager = $doctrine->getManager();
         $this->onAfterBefore();
         $entityManager->remove($data);
         $entityManager->flush();
         $this->onAfterDelete();
-        if ($this->sucess){
+    
+        if ($this->sucess) {
             return $this->extuteSucessUrl();
         }
+    
+        return new Response('Object was destroyed!');
+    }
+
+    public function setData(): void {}
+
+    private function extuteSucessUrl(){
+        return $this->redirectToRoute($this->sucess['url'],$this->sucess['arguments']);
     }
 
     protected function setSucess(string $url,array $arguments=[]){
         $this->sucess['url']=$url;
         $this->sucess['arguments']=$arguments;
-    }
-
-    private function extuteSucessUrl(){
-        return $this->redirectToRoute($this->sucess['url'],$this->sucess['arguments']); 
     }
 
     private function chcekData() :void

@@ -3,10 +3,6 @@
 namespace App\Generic;
 
 use App\Generic\GenericFormController;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Entity\Cars;
 
 class GenericEditController extends GenericFormController
 {
@@ -36,6 +32,7 @@ class GenericEditController extends GenericFormController
 
     protected function onAfterValid($form)
     {
+        $this->chcekData();
         $this->onBeforeSave();
         $em = $this->doctrine->getManager();
         $categoryData = $form->getData();

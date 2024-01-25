@@ -8,11 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Forms\Car;
 
-class FormController extends GenericFormController implements GenericSetDataInterFace
+class FormController extends GenericFormController
 {
-    public function setData(): void
-    {
-        $this->setForm(Car::class);
-        $this->setTwig('car/form.twig');
-    }
+    protected string $twing = 'car/form.twig';
+    protected string $form = Car::class;
 }

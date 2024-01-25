@@ -8,14 +8,11 @@ use App\Forms\Car;
 use App\Entity\Cars;
 
 
-class AddCarController extends GenericCreateController implements GenericSetDataInterFace
+class AddCarController extends GenericCreateController
 {
-    public function setData(): void
-    {
-        $this->setForm(Car::class);
-        $this->setTwig('car/form.twig');
-        $this->setEntity(new Cars());
-    }
+    protected string $twing = 'car/form.twig';
+    protected string $form= Car::class;
+    protected $entity = Cars::class;
 
     protected function onAfterSaveSave():void
     {

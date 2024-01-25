@@ -10,11 +10,12 @@ use App\Entity\Cars;
 
 class CarEditController extends GenericEditController implements GenericSetDataInterFace
 {
+    protected $entity = Cars::class;
+    protected string $twing = 'car/form.twig';
+    protected string $form= Car::class;
+
     public function setData(): void
     {
-        $this->setForm(Car::class);
-        $this->setTwig('car/form.twig');
-        $this->setEntity(Cars::class);
         $this->setSucess('CarDetail',[
             "id"=>$this->returnUrlArguments('id')
         ]);

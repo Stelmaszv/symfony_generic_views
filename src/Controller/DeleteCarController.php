@@ -1,18 +1,14 @@
 <?php
 namespace App\Controller;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\GenericDeleteController;
-use App\Generic\GenericSetDataInterFace;
-use App\Generic\Generic;
 use App\Entity\Cars;
 
-class DeleteCarController extends GenericDeleteController implements GenericSetDataInterFace
+class DeleteCarController extends GenericDeleteController
 {
+    protected $entity = Cars::class;
+
     public function setData(): void
     {
-        $this->setEntity(Cars::class);
         $this->setSucess('Cars');
     }
 
