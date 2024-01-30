@@ -67,12 +67,12 @@ trait Generic{
         return array_merge($this->attributes, $this->onSetAttribut());
     }
 
-    private function getObjects()
+    private function getObjects() : mixed
     {
         return $this->preaperQuerySet($this->doctrine->getManager());
     }
 
-    private function preaperQuerySet($entityManager)
+    private function preaperQuerySet($entityManager) : mixed
     {
         return $this->onQuerySet($entityManager->getRepository($this->entity));
     }
