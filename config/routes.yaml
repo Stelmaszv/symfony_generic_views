@@ -47,7 +47,7 @@ CarDetail:
       _locale:  en|fr
       _format:  html|rss
       year:     \d+
-
+      
 Cars:
     path:   /cars/list
     controller: App\Controller\CarListController::listView
