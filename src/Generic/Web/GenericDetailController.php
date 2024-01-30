@@ -1,12 +1,10 @@
 <?php
-namespace App\Generic;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+namespace App\Generic\Web;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Generic\Generic;
-use App\Generic\GenericInterFace;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 
 class GenericDetailController extends AbstractController implements GenericInterFace, GenericSetDataInterFace

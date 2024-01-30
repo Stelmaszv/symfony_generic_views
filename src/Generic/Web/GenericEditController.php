@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Generic;
+namespace App\Generic\Web;
 
 use Symfony\Component\Form\Form;
-use App\Generic\GenericFormController;
-use Symfony\Component\Form\FormInterface;
+use App\Generic\Web\GenericFormController;
 
 class GenericEditController extends GenericFormController
 {
-    protected function getQuery(int $id) : array
+    protected function getQuery(int $id) : mixed
     {
         return $this->doctrine->getManager()->getRepository($this->getEntity())->find($id); 
     }
@@ -28,7 +27,7 @@ class GenericEditController extends GenericFormController
         }
     }
 
-    protected function getForm() : FormInterface
+    protected function getForm() : Form
     {
         return $this->createForm($this->form, $this->getQuery($this->returnUrlArguments('id')));
     }
@@ -44,9 +43,9 @@ class GenericEditController extends GenericFormController
         $this->onAfterSaveSave();
     }
 
-    protected function onAfterSaveSave():void{}
+    protected function onAfterSaveSave() : void {}
 
-    protected function onBeforeSave():void{}
+    protected function onBeforeSave() : void {}
 }
 
 

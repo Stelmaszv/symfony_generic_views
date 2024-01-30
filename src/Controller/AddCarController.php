@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller;
-use App\Generic\GenericCreateController;
 use App\Forms\Car;
 use App\Entity\Cars;
+use App\Generic\Web\GenericCreateController;
 
 class AddCarController extends GenericCreateController
 {

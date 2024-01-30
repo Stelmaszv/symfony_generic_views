@@ -1,5 +1,5 @@
 <?php
-namespace App\Generic;
+namespace App\Generic\Web;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,29 +19,29 @@ trait Generic{
         return $this->render($this->twig, $this->addAttributes($doctrine));
     }
     
-    protected function onSetAttribut() :array
+    protected function onSetAttribut() : array
     {
         return [];
     }
 
-    protected function returnUrlArguments(string $argumant):string
+    protected function returnUrlArguments(string $argumant) : string
     {
         return $this->request->attributes->get($argumant);
     }
 
     protected function setData() : void {}
 
-    protected function getEntity() : mixed
+    protected function getEntity() : string
     {
         return $this->entity;
     }
 
-    protected function setEntity(mixed $entity) : void 
+    protected function setEntity(string $entity) : void 
     {
-        $this->entity= $entity;
+        $this->entity = $entity;
     }
 
-    protected function setTwig(mixed $twig) : void
+    protected function setTwig(string $twig) : void
     {
         $this->twig = $twig;
     }

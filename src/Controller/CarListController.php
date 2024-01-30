@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
-use App\Generic\GenericListController;
 use App\Entity\Cars;
+use App\Generic\Web\GenericListController;
 
 class CarListController extends GenericListController
 {

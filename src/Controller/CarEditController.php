@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Controller;
-use App\Generic\GenericEditController;
 use App\Forms\Car;
 use App\Entity\Cars;
+use App\Generic\Web\GenericEditController;
 
 class CarEditController extends GenericEditController
 {

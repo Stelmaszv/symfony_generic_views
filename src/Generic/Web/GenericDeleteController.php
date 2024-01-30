@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Generic;
+namespace App\Generic\Web;
 
-use App\Generic\Generic;
 use Symfony\Component\HttpFoundation\Response;
 use Doctrine\Persistence\ManagerRegistry as SymRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

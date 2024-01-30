@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Generic;
+namespace App\Generic\Web;
 
 use Symfony\Component\Form\Form;
 use Doctrine\Persistence\ManagerRegistry;

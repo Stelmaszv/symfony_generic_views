@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
-use App\Generic\GenericDeleteController;
 use App\Entity\Cars;
+use App\Generic\Web\GenericDeleteController;
 
 class DeleteCarController extends GenericDeleteController
 {
