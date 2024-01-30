@@ -1,19 +1,22 @@
 <?php
 namespace App\Generic;
+use Symfony\Component\Form\Form;
 use App\Generic\GenericFormController;
+use Symfony\Component\Form\FormInterface;
 
 class GenericCreateController extends GenericFormController implements GenericSetDataInterFace
 {
     private int $inserdId;
 
-    protected function getForm(){
+    protected function getForm() : FormInterface
+    {
         $this->setEntity(new $this->entity());
         return $this->createForm($this->form,$this->getEntity());
     }
 
-    protected function onAfterValid($form)
+    protected function onAfterValid(Form $form) : void
     {
-        $entity= $this->getEntity();
+        $entity = $this->getEntity();
         $this->onBeforeSave();
         $em = $this->doctrine->getManager();
         $em->persist($entity);
@@ -22,7 +25,8 @@ class GenericCreateController extends GenericFormController implements GenericSe
         $this->onAfterSaveSave();
     }
 
-    protected function createdUrl(string $url):void{
+    protected function createdUrl(string $url):void
+    {
        $this->setSucess(
             $url,[
                 'id' => $this->inserdId
@@ -30,9 +34,9 @@ class GenericCreateController extends GenericFormController implements GenericSe
         );
     }
 
-    protected function onAfterSaveSave():void{}
+    protected function onAfterSaveSave():void {}
 
-    protected function onBeforeSave():void{}
+    protected function onBeforeSave():void {}
 
-    public function setData(): void{}
+    public function setData(): void {}
 }

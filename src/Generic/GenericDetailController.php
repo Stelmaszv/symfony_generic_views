@@ -16,7 +16,7 @@ class GenericDetailController extends AbstractController implements GenericInter
 
     public function detailView(ManagerRegistry $doctrine,Request $request,int $id): Response
     {
-        $this->id=$id;
+        $this->id = $id;
         return $this->baseView($doctrine,$request);
     }
 

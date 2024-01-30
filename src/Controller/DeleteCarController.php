@@ -5,14 +5,10 @@ use App\Entity\Cars;
 
 class DeleteCarController extends GenericDeleteController
 {
-    protected $entity = Cars::class;
-
-    public function setData(): void
-    {
-        $this->setSucess('Cars');
-    }
+    protected string $entity = Cars::class;
 
     protected function onAfterDelete():void{
+        $this->setSucess('Cars');
         $this->addFlash(
             'notice',
             'Object was destroy'

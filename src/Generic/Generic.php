@@ -7,10 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 trait Generic{
 
     private array $attributes=[];
-    protected Registry $doctrine;
-    protected Request $request;
-    protected $entity = NULL;
-    protected string $twing = '';
+    protected string $entity;
+    protected string $twig;
 
     protected function baseView(Registry $doctrine,Request $request) : Response
     {
@@ -18,7 +16,7 @@ trait Generic{
         $this->doctrine=$doctrine;
         $this->setData();
         $this->chcekData();
-        return $this->render($this->twing, $this->addAttributes($doctrine));
+        return $this->render($this->twig, $this->addAttributes($doctrine));
     }
     
     protected function onSetAttribut() :array
@@ -31,30 +29,35 @@ trait Generic{
         return $this->request->attributes->get($argumant);
     }
 
-    protected function getEntity(){
+    protected function setData() : void {}
+
+    protected function getEntity() : mixed
+    {
         return $this->entity;
     }
 
-    protected function setEntity($Entity){
-        $this->entity= $Entity;
+    protected function setEntity(mixed $entity) : void 
+    {
+        $this->entity= $entity;
     }
 
-    protected function setTwig(string $twing){
-        $this->twing= $twing;
+    protected function setTwig(mixed $twig) : void
+    {
+        $this->twig = $twig;
     }
     
-    private function chcekData() :void
+    private function chcekData() : void
     {
         if(!$this->entity) {
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
         }
 
-        if(!$this->twing) {
+        if(!$this->twig) {
             throw new \Exception("Twing is not define in controller ".get_class($this)."!");
         }
     }
 
-    private function addAttributes(Registry $doctrine) :array
+    private function addAttributes(Registry $doctrine) : array
     {
         
         $this->attributes = [

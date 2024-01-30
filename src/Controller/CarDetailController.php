@@ -6,6 +6,6 @@ use App\Generic\GenericSetDataInterFace;
 
 class CarDetailController extends GenericDetailController
 {
-    protected $entity = Cars::class;
-    protected string $twing = 'car/car_detail.twig';
+    protected string $entity = Cars::class;
+    protected string $twig = 'car/car_detail.twig';
 }
