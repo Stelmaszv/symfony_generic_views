@@ -4,12 +4,9 @@ namespace App\Generic;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Form as SymfonyForm;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Forms\Car;
-use App\Entity\Cars;
 
 class GenericFormController extends AbstractController
 {
