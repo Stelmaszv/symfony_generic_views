@@ -14,11 +14,11 @@ class GenericEditController extends GenericFormController
     private function chcekData() :void
     {
         if(!$this->entity) {
-            throw new \Exception("form is not define in controller ".get_class($this)."!");
+            throw new \Exception("Entity is not define in controller ".get_class($this)."!");
         }
 
         if(!$this->form) {
-            throw new \Exception("form is not define in controller ".get_class($this)."!");
+            throw new \Exception("Form is not define in controller ".get_class($this)."!");
         }
 
         if(!$this->twing) {
