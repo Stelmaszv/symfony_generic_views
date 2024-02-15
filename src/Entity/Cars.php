@@ -12,12 +12,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Cars implements ApiInterFace
 {
     use EntityApiGeneric;
-    /**
-     * @Groups("api")
-     */
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /**
+     * @Groups("api")
+     */
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
