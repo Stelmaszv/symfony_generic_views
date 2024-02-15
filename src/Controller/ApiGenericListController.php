@@ -27,5 +27,3 @@ class ApiGenericListController extends AbstractController
         return new JsonResponse($data, JsonResponse::HTTP_OK);
     }
 }
-
-dqwed
