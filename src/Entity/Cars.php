@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
-use ReflectionClass;
+use App\Generic\ApiInterFace;
 use Doctrine\ORM\Mapping as ORM;
+use App\Generic\EntityApiGeneric;
 use App\Repository\CarsRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CarsRepository::class)]
-class Cars
+class Cars implements ApiInterFace
 {
-    //private array $companyApiFields = ['Id','Name'];
+    use EntityApiGeneric;
     /**
      * @Groups("api")
      */
@@ -53,21 +54,7 @@ class Cars
      */
     public function getCompany(): ?array
     {
-        if ($this->company === null) {
-            return null;
-        }
-
-        $companyApiFields = new ReflectionClass(new Company);
-        $properties = $companyApiFields->getProperties();
-
-
-        foreach ($properties as $property) {
-            $atrybute = $property->getName();
-            $method = 'get'.$atrybute;
-            $values[$atrybute] = $this->company->$method(); 
-        }
-
-        return $values;
+       return $this->setApiGroup(new Company);
     }
 
     public function setCompany(?Company $company): self
