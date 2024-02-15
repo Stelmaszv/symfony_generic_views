@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ReflectionClass;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CarsRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -9,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CarsRepository::class)]
 class Cars
 {
+    //private array $companyApiFields = ['Id','Name'];
     /**
      * @Groups("api")
      */
@@ -54,12 +56,18 @@ class Cars
         if ($this->company === null) {
             return null;
         }
-        
-        return [
-            'id' => $this->company->getId(),
-            'name' => $this->company->getName()
-        ];
 
+        $companyApiFields = new ReflectionClass(new Company);
+        $properties = $companyApiFields->getProperties();
+
+
+        foreach ($properties as $property) {
+            $atrybute = $property->getName();
+            $method = 'get'.$atrybute;
+            $values[$atrybute] = $this->company->$method(); 
+        }
+
+        return $values;
     }
 
     public function setCompany(?Company $company): self

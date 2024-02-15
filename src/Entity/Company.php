@@ -20,7 +20,7 @@ class Company
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $Description = null;
+    private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Cars::class)]
     private Collection $cars;
@@ -49,12 +49,12 @@ class Company
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(?string $Description): self
+    public function setDescription(?string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
