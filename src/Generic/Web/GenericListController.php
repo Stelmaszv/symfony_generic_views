@@ -18,7 +18,7 @@ abstract class GenericListController extends AbstractController implements Gener
 
     public function listView(ManagerRegistry $doctrine,Request $request, PaginatorInterface $paginator): Response
     {
-        $this->paginator=$paginator;
+        $this->paginator = $paginator;
         return $this->baseView($doctrine,$request);
     }
 
