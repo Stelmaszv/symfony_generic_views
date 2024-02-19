@@ -19,19 +19,24 @@ class ApiGenericListController extends AbstractController
     private PaginatorInterface $paginator;
     private Request $request;
     private ?array $paginatorData = null;
-    
+
     public function listView(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
     {
         if(!$this->entity) {
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
         }
 
+        $this->initialize($doctrine, $serializer, $paginator, $request);
+
+        return new JsonResponse($this->getResponse(), JsonResponse::HTTP_OK);
+    }
+
+    protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): void
+    {
         $this->managerRegistry = $doctrine;
         $this->serializer = $serializer;
         $this->paginator = $paginator;
         $this->request = $request;
-
-        return new JsonResponse($this->getResponse(), JsonResponse::HTTP_OK);
     }
 
     protected function onQuerySet(ObjectRepository $repository): array
