@@ -68,6 +68,16 @@ ApiCars:
       _format:  html|rss
       year:     \d+
 
+ApiGetCar:
+    path:   api/car/{id}
+    controller: App\Controller\ApiGetCar::get
+    defaults:
+      _format: html
+    requirements:
+      _locale:  en|fr
+      _format:  html|rss
+      year:     \d+
+
 
 controllers:
     resource: ../src/Controller/
