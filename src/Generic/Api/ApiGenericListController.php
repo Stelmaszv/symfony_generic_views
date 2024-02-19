@@ -17,9 +17,9 @@ class ApiGenericListController extends AbstractController
     protected ManagerRegistry $managerRegistry;
     private SerializerInterface $serializer;
     private PaginatorInterface $paginator;
-    private ?array $paginatorData = null;
     private Request $request;
-
+    private ?array $paginatorData = null;
+    
     public function listView(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
     {
         if(!$this->entity) {
