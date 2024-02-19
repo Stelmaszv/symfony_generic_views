@@ -12,9 +12,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ApiGenericListController extends AbstractController
 {
-    protected string $entity;
-    protected ManagerRegistry $managerRegistry;
+    protected ?string $entity = null;
     protected int $perPage = 0;
+    protected ManagerRegistry $managerRegistry;
     private SerializerInterface $serializer;
     private PaginatorInterface $paginator;
     private ?array $paginatorData = null;
@@ -22,6 +22,10 @@ class ApiGenericListController extends AbstractController
 
     public function listView(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
     {
+        if(!$this->entity) {
+            throw new \Exception("Entity is not define in controller ".get_class($this)."!");
+        }
+
         $this->managerRegistry = $doctrine;
         $this->serializer = $serializer;
         $this->paginator = $paginator;
@@ -58,29 +62,32 @@ class ApiGenericListController extends AbstractController
 
     private function getQuery(): array
     {
-        $entities = $this->managerRegistry->getRepository($this->entity);
-        return $this->onQuerySet($entities);
+        return $this->onQuerySet($this->managerRegistry->getRepository($this->entity));
     }
 
     private function prepareQuerySet(array $query): mixed
     {
-        $paginator = $this->paginator->paginate(
-            $query,
-            $this->request->query->getInt('page', 1),
-            $this->perPage
-        );
+        if($this->perPage){
+            $paginator = $this->paginator->paginate(
+                $query,
+                $this->request->query->getInt('page', 1),
+                $this->perPage
+            );
 
-        $paginationData = $paginator->getPaginationData();
+            $paginationData = $paginator->getPaginationData();
 
-        $this->paginatorData = [
-            'endPage' => $paginationData['endPage'],
-            'startPage' => $paginationData['startPage'],
-            'current' => $paginationData['current'],
-            'pageCount' => $paginationData['pageCount'],
-            'previous' => $paginationData['previous'] ?? null,
-            'next' => $paginationData['next'] ?? null
-        ];
+            $this->paginatorData = [
+                'endPage' => $paginationData['endPage'],
+                'startPage' => $paginationData['startPage'],
+                'current' => $paginationData['current'],
+                'pageCount' => $paginationData['pageCount'],
+                'previous' => $paginationData['previous'] ?? null,
+                'next' => $paginationData['next'] ?? null
+            ];
 
-        return $this->perPage ? $paginator : $query;
+            return $paginator;
+        }
+
+        return $query;
     }
 }
