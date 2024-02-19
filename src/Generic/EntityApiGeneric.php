@@ -21,7 +21,9 @@ trait EntityApiGeneric
         foreach ($properties as $property) {
             $propertyName = $property->getName();
             $getterMethod = 'get' . ucfirst($propertyName);
-            $values[$propertyName] = $this->$objectClassName->$getterMethod();
+            if(!is_object($this->$objectClassName->$getterMethod())){
+                $values[$propertyName] = $this->$objectClassName->$getterMethod(); 
+            }
         }
     
         return $values;

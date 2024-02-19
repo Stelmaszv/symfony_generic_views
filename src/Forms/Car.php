@@ -3,7 +3,6 @@ namespace App\Forms;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TextValid;
 use Symfony\Component\Validator\Constraints\Length;
 

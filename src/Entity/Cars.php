@@ -27,9 +27,6 @@ class Cars implements ApiInterFace
      */
     private ?string $name = null;
 
-    /**
-     * @Groups("api")
-     */
     #[ORM\ManyToOne(inversedBy: 'cars')]
     private ?Company $company = null;
 
