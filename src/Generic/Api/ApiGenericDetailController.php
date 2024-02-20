@@ -16,16 +16,9 @@ class ApiGenericDetailController extends AbstractController
     private SerializerInterface $serializer;
     private int $id = 0;
 
-    public function get(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): JsonResponse
+    public function __invoke(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): JsonResponse
     {
-        $this->initialize($doctrine, $serializer, $id);
-        $car = $this->getObject();
-
-        if (!$car) {
-            return new JsonResponse(['message' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);
-        }
-        
-        return new JsonResponse($this->normalize($car), JsonResponse::HTTP_OK);
+        return $this->get($doctrine, $serializer, $id);
     }
 
     protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): void
@@ -38,6 +31,18 @@ class ApiGenericDetailController extends AbstractController
     protected function onQuerySet(ObjectRepository $repository): ?object
     {
         return $repository->find($this->id);
+    }
+
+    private function get(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): JsonResponse
+    {
+        $this->initialize($doctrine, $serializer, $id);
+        $car = $this->getObject();
+
+        if (!$car) {
+            return new JsonResponse(['message' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
+        
+        return new JsonResponse($this->normalize($car), JsonResponse::HTTP_OK);
     }
 
     private function normalize(object $object): array

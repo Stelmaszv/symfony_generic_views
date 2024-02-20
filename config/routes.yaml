@@ -57,28 +57,7 @@ Cars:
       _locale:  en|fr
       _format:  html|rss
       year:     \d+
-
-ApiCars:
-    path:   api/cars/list
-    controller: App\Controller\ApiCarsListController::listView
-    defaults:
-      _format: html
-    requirements:
-      _locale:  en|fr
-      _format:  html|rss
-      year:     \d+
-
-ApiGetCar:
-    path:   api/car/{id}
-    controller: App\Controller\ApiGetCar::get
-    defaults:
-      _format: html
-    requirements:
-      _locale:  en|fr
-      _format:  html|rss
-      year:     \d+
-
-
+      
 controllers:
     resource: ../src/Controller/
     type: annotation

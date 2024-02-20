@@ -10,9 +10,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiGenericDeteilController extends AbstractController
 {
-    /**
-     * @Route("/api/car/{id}", name="api_car", methods={"GET"})
-     */
     public function showCar(Cars $car, SerializerInterface $serializer): JsonResponse
     {
         $data = $serializer->normalize($car, null, ['groups' => 'api']);

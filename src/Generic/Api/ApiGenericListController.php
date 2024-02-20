@@ -20,15 +20,9 @@ class ApiGenericListController extends AbstractController
     private Request $request;
     private ?array $paginatorData = null;
 
-    public function listView(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
+    public function __invoke(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
     {
-        if(!$this->entity) {
-            throw new \Exception("Entity is not define in controller ".get_class($this)."!");
-        }
-
-        $this->initialize($doctrine, $serializer, $paginator, $request);
-
-        return new JsonResponse($this->getResponse(), JsonResponse::HTTP_OK);
+        return $this->listView($doctrine, $serializer, $paginator, $request);
     }
 
     protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): void
@@ -44,13 +38,21 @@ class ApiGenericListController extends AbstractController
         return $repository->findAll();
     }
 
+    private function listView(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
+    {
+        if(!$this->entity) {
+            throw new \Exception("Entity is not define in controller ".get_class($this)."!");
+        }
+
+        $this->initialize($doctrine, $serializer, $paginator, $request);
+
+        return new JsonResponse($this->getResponse(), JsonResponse::HTTP_OK);
+    }
+
     private function getResponse(): array
     {
-        $query = $this->getQuery();
-
         return [
-            'results' => $this->normalize($query),
-            'count' => count($query),
+            'results' => $this->normalize($this->getQuery()),
             'paginatorData' => $this->paginatorData
         ];
     }
@@ -82,6 +84,7 @@ class ApiGenericListController extends AbstractController
             $paginationData = $paginator->getPaginationData();
 
             $this->paginatorData = [
+                'totalCount' => $paginationData['totalCount'],
                 'endPage' => $paginationData['endPage'],
                 'startPage' => $paginationData['startPage'],
                 'current' => $paginationData['current'],

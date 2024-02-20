@@ -33,7 +33,7 @@ class ApiGenericListController extends AbstractController
     }
 
     /**
-     * @Route("/api/car/{id}", name="api_car", methods={"GET"})
+     * @Route("/api/c/{id}", name="api_car", methods={"GET"})
      */
     public function getCarById(CarsRepository $carsRepository, SerializerInterface $serializer, int $id): JsonResponse
     {
@@ -54,7 +54,7 @@ class ApiGenericListController extends AbstractController
     }
 
     /**
-     * @Route("/api/car", name="api_car_add", methods={"POST"})
+     * @Route("/api/c", name="api_car_add", methods={"POST"})
      */
     public function addCar(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
     {
@@ -81,7 +81,7 @@ class ApiGenericListController extends AbstractController
     }
 
     /**
-     * @Route("/api/car/{id}", name="api_car_update", methods={"PUT"})
+     * @Route("/api/c/{id}", name="api_car_update", methods={"PUT"})
      */
     public function updateCar(Request $request, CarsRepository $carsRepository, SerializerInterface $serializer, ValidatorInterface $validator, int $id, ManagerRegistry $doctrine): JsonResponse
     {
@@ -113,7 +113,7 @@ class ApiGenericListController extends AbstractController
     }
 
     /**
-     * @Route("/api/car/{id}", name="api_car_delete", methods={"DELETE"})
+     * @Route("/api/c/{id}", name="api_car_delete", methods={"DELETE"})
      */
     public function deleteCar(CarsRepository $carsRepository, int $id, ManagerRegistry $doctrine): JsonResponse
     {
