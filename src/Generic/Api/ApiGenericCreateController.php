@@ -26,23 +26,23 @@ class ApiGenericCreateController extends AbstractController
 
     public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
     {
-        $this->initialize($serializer,$validator,$doctrine);
+        $this->initialize($serializer, $validator, $doctrine);
         $data = $request->getContent();
 
         if (empty($data)) {
-            return new JsonResponse(['errors' => ['message' => 'No data provided']], JsonResponse::HTTP_BAD_REQUEST);
+            return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $dto = $this->serializer->deserialize($data, $this->dto, 'json');
-        
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
-            return $this->validation($dto);
+        $dto = $this->deserializeDto($data);
+
+        $errors = $this->validateDto($dto);
+        if (!empty($errors)) {
+            return $this->validationErrorResponse($errors);
         }
 
-        $this->setEntity($dto);
+        $this->processEntity($dto);
 
-        return new JsonResponse(['message' => 'Car added successfully'], JsonResponse::HTTP_CREATED);
+        return $this->respondWithSuccess('Car added successfully', JsonResponse::HTTP_CREATED);
     }
 
     protected function initialize(SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): void
@@ -52,18 +52,17 @@ class ApiGenericCreateController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    private function validation($dto) : JsonResponse
+    private function deserializeDto(string $data)
     {
-        $errors = $this->validator->validate($dto);
-        $errorMessages = [];
-        foreach ($errors as $error) {
-            $errorMessages[$error->getPropertyPath()] = $error->getMessage();
-        }
-
-        return new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
+        return $this->serializer->deserialize($data, $this->dto, 'json');
     }
 
-    private function setEntity($dto) : void
+    private function validateDto($dto): array
+    {
+        return iterator_to_array($this->validator->validate($dto));
+    }
+
+    private function processEntity($dto): void
     {
         $entity = new $this->entity();
         $reflectionClass = new ReflectionClass($entity);
@@ -73,20 +72,18 @@ class ApiGenericCreateController extends AbstractController
             $propertyName = $property->getName();
             $propertyType = $property->getType();
 
-            if($propertyName !== 'id'){
-                $propertyTypeName = $propertyType->__toString(); 
-
+            if ($propertyName !== 'id') {
+                $propertyTypeName = $propertyType->__toString();
                 $object = $this->getObject($propertyTypeName);
-                $method = 'set'.ucfirst($propertyName);
+                $method = 'set' . ucfirst($propertyName);
 
-                if($object !== null && $dto->company !== null ){
-                    $ObjectRepository = $this->doctrine->getRepository($object::class);
-                    $entity->setCompany($ObjectRepository->find($dto->company));
-                }else{
+                if ($object !== null && property_exists($dto, 'company') && $dto->company !== null) {
+                    $objectRepository = $this->doctrine->getRepository($object::class);
+                    $entity->setCompany($objectRepository->find($dto->company));
+                } else {
                     $entity->$method($dto->$propertyName);
                 }
             }
-
         }
 
         $entityManager = $this->doctrine->getManager();
@@ -94,17 +91,35 @@ class ApiGenericCreateController extends AbstractController
         $entityManager->flush();
     }
 
-    private function getObject(string $type) : ?object
+    private function getObject(string $type): ?object
     {
         $type = ltrim($type, '?');
-
 
         if (strpos($type, '\\') === false) {
             return null;
         }
-        
-        $nameSpace = '\\'.$type;
+
+        $nameSpace = '\\' . $type;
 
         return new $nameSpace;
+    }
+
+    private function respondWithError(string $message, int $statusCode): JsonResponse
+    {
+        return new JsonResponse(['errors' => ['message' => $message]], $statusCode);
+    }
+
+    private function validationErrorResponse(array $errors): JsonResponse
+    {
+        $errorMessages = [];
+        foreach ($errors as $error) {
+            $errorMessages[$error->getPropertyPath()] = $error->getMessage();
+        }
+        return new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
+    }
+
+    private function respondWithSuccess(string $message, int $statusCode): JsonResponse
+    {
+        return new JsonResponse(['message' => $message], $statusCode);
     }
 }
