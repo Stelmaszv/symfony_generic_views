@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class ApiGenericListController extends AbstractController
 {
     /**
-     * @Route("/api/cars", name="api_cars", methods={"GET"})
+     * @Route("/api/card", name="api_cars", methods={"GET"})
      */
     public function getCars(CarsRepository $carsRepository, SerializerInterface $serializer): JsonResponse
     {
