@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ApiGenericListController extends AbstractController
+class GenericListController extends AbstractController
 {
     protected ?string $entity = null;
     protected int $perPage = 0;

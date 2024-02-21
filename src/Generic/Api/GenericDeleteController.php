@@ -7,7 +7,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ApiGenericDeleteController extends AbstractController
+class GenericDeleteController extends AbstractController
 {
     protected ?string $entity = null;
 

@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Persistence\ManagerRegistry;
 
-trait Generic
+trait GenericTrait
 {
     protected ?string $entity = null;
     protected ?string $dto = null;

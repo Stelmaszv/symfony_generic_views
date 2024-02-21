@@ -2,7 +2,6 @@
 
 namespace App\Generic\Api;
 
-use App\Generic\Api\Genric;
 use App\Generic\ApiInterFace;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,26 +10,29 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ApiGenericCreateController extends AbstractController implements Genric
+class GenericUpdateController extends AbstractController implements GenricInterface
 {
-    use Generic;
+    use GenericTrait;
+    protected int $id;
 
-    public function __invoke(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
+    public function __invoke(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine, int $id): JsonResponse
     {
-        return $this->create($request, $serializer, $validator, $doctrine);
+        $this->initialize($request, $serializer, $validator, $doctrine, $id);
+        return $this->update();
     }
 
-    protected function initialize(SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): void
+    protected function initialize(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine, int $id): void
     {
+        $this->request = $request;
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->doctrine = $doctrine;
+        $this->id = $id;
     }
 
-    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
+    public function update(): JsonResponse
     {
-        $this->initialize($serializer, $validator, $doctrine);
-        $data = $request->getContent();
+        $data = $this->request->getContent();
 
         if (empty($data)) {
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);
@@ -45,11 +47,10 @@ class ApiGenericCreateController extends AbstractController implements Genric
 
         $this->processEntity($dto);
 
-        return $this->respondWithSuccess('Car added successfully', JsonResponse::HTTP_CREATED);
+        return $this->respondWithSuccess('Car updated successfully', JsonResponse::HTTP_CREATED);
     }
 
     public function getEntity() : ApiInterFace {
-        return new $this->entity();
+        return $this->doctrine->getRepository($this->entity)->find($this->id);
     }
-
 }
