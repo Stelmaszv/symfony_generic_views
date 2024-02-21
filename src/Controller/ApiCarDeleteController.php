@@ -7,7 +7,7 @@ use App\Generic\Api\ApiGenericDeleteController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
-    * @Route("/api/car/{id}", name="car_delete", methods={"DELETE"})
+    * @Route("/api/car/{id}", name="car_delet", methods={"DELETE"})
 */
 class ApiCarDeleteController extends ApiGenericDeleteController
 {

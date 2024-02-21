@@ -8,7 +8,7 @@ use App\Generic\Api\ApiGenericCreateController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
-    * @Route("api/car", name="car_add", methods={"POST"})
+    * @Route("api/car", name="car_ad", methods={"POST"})
 */
 class ApiAddCarController extends ApiGenericCreateController
 {
