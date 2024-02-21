@@ -7,7 +7,7 @@ use App\Generic\Api\ApiGenericListController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
-    * @Route("/api/cars/list", name="get_car", methods={"GET"})
+    * @Route("/api/cars/list", name="get_cars", methods={"GET"})
 */
 class ApiCarsListController extends ApiGenericListController
 {
