@@ -81,38 +81,6 @@ class ApiGenericListController extends AbstractController
     }
 
     /**
-     * @Route("/api/c/{id}", name="api_car_update", methods={"PUT"})
-     */
-    public function updateCar(Request $request, CarsRepository $carsRepository, SerializerInterface $serializer, ValidatorInterface $validator, int $id, ManagerRegistry $doctrine): JsonResponse
-    {
-        $car = $carsRepository->find($id);
-    
-        if (!$car) {
-            return new JsonResponse(['message' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);
-        }
-    
-        $data = $request->getContent();
-        $carDto = $serializer->deserialize($data, CarDto::class, 'json');
-    
-        $car->setName($carDto->name);
-
-        $errors = $validator->validate($carDto);
-        if (count($errors) > 0) {
-            $errorMessages = [];
-            foreach ($errors as $error) {
-                $errorMessages[$error->getPropertyPath()] = $error->getMessage();
-            }
-            return new JsonResponse(['errors' => $errorMessages], JsonResponse::HTTP_BAD_REQUEST);
-        }
-    
-        $entityManager = $doctrine->getManager();
-        $entityManager->persist($car);
-        $entityManager->flush();
-    
-        return new JsonResponse(['message' => 'Car updated successfully'], JsonResponse::HTTP_OK);
-    }
-
-    /**
      * @Route("/api/c/{id}", name="api_car_delete", methods={"DELETE"})
      */
     public function deleteCar(CarsRepository $carsRepository, int $id, ManagerRegistry $doctrine): JsonResponse

@@ -24,6 +24,13 @@ class ApiGenericCreateController extends AbstractController
         return $this->create($request, $serializer, $validator, $doctrine);
     }
 
+    protected function initialize(SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): void
+    {
+        $this->serializer = $serializer;
+        $this->validator = $validator;
+        $this->doctrine = $doctrine;
+    }
+
     public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
     {
         $this->initialize($serializer, $validator, $doctrine);
@@ -43,13 +50,6 @@ class ApiGenericCreateController extends AbstractController
         $this->processEntity($dto);
 
         return $this->respondWithSuccess('Car added successfully', JsonResponse::HTTP_CREATED);
-    }
-
-    protected function initialize(SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): void
-    {
-        $this->serializer = $serializer;
-        $this->validator = $validator;
-        $this->doctrine = $doctrine;
     }
 
     private function deserializeDto(string $data)
