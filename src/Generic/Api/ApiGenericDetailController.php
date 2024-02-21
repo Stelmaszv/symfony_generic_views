@@ -39,7 +39,7 @@ class ApiGenericDetailController extends AbstractController
         $car = $this->getObject();
 
         if (!$car) {
-            return new JsonResponse(['message' => 'Carnot found'], JsonResponse::HTTP_NOT_FOUND);
+            return new JsonResponse(['message' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);
         }
         
         return new JsonResponse($this->normalize($car), JsonResponse::HTTP_OK);
