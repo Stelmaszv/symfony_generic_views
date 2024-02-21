@@ -60,7 +60,7 @@ class ApiGenericListController extends AbstractController
     private function normalize(array $query): array
     {
         return $this->serializer->normalize($this->prepareQuerySet($query), null, [
-            'groups' => 'ap',
+            'groups' => 'api',
             'circular_reference_handler' => function () {
                 return null;
             },
