@@ -13,9 +13,10 @@ class CarListController extends GenericListController
     protected ?int $perPage = 5;
     protected ?string $twig = 'car_app/car_list.html.twig';
 
-    protected function onSetAttribut(){
+    protected function onSetAttribut() : array 
+    {
         return [
             'title' => 'Lista Carsów'
         ];
-      }
+    }
 }

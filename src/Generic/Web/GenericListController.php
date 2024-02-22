@@ -11,13 +11,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class GenericListController extends AbstractController
 {
-    protected ?string $entity = null;
-    protected ?int $perPage = null;
-    protected ?string $twig = null;
+    use  GenericGetTrait;   
 
     private ?array $paginatorData = null;
     private bool $paginate = false;
-
+    protected ?int $perPage = null;
     protected Request $request;
     protected EntityManagerInterface $entityManager; 
     protected PaginatorInterface $paginator;
@@ -36,19 +34,12 @@ class GenericListController extends AbstractController
 
     protected function initialize(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): void
     {
+        $this->chcekData();
         $this->request = $request;
         $this->entityManager = $entityManager;
         $this->paginator = $paginator;
         $this->repository = $this->entityManager->getRepository($this->entity);
         $this->paginate = ($this->perPage !== null && $this->perPage !== 0);
-    }
-
-    protected function beforeQuery() : void {}
-
-    protected function afterQuery() : void{}
-
-    protected function onSetAttribut(){
-      return [];
     }
 
     protected function onQuerySet() : array
