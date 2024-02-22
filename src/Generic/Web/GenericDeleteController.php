@@ -2,57 +2,95 @@
 
 namespace App\Generic\Web;
 
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\Persistence\ManagerRegistry as SymRegistry;
+use App\Generic\Web\Flash;
+
+use App\Generic\Web\Redirect;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-class GenericDeleteController extends AbstractController implements GenericSetDataInterFace
+class GenericDeleteController extends AbstractController
 {
-    use Generic;
-    private array $sucess = [];
+    protected ?string $entity = null;
+    protected ?string $redirectTo = null;
+    protected EntityManagerInterface $entityManager;
+    protected ServiceEntityRepository $repository;
+    protected Redirect $redirect;
+    protected Flash $flash;
+    protected object $item;
+    protected int $id;
 
-    public function delete(SymRegistry $doctrine,int $id): Response
+    public function __invoke(EntityManagerInterface $entityManager, int $id): RedirectResponse
     {
-        $this->setData();
-
-        $data = $doctrine->getManager()->getRepository($this->getEntity())->find($id);
-    
-        if (!$data) {
-            return new Response('Object not found.', 404);
-        }
-    
-        $entityManager = $doctrine->getManager();
-        $this->onAfterBefore();
-        $entityManager->remove($data);
-        $entityManager->flush();
-        $this->onAfterDelete();
-    
-        if ($this->sucess) {
-            return $this->extuteSucessUrl();
-        }
-    
-        return new Response('Object was destroyed!');
+        $this->initialize($entityManager, $id);
+        return $this->deleteAction();
     }
 
-    public function setData(): void {}
-
-    private function extuteSucessUrl(){
-        return $this->redirectToRoute($this->sucess['url'],$this->sucess['arguments']);
-    }
-
-    protected function setSucess(string $url,array $arguments=[]){
-        $this->sucess['url']=$url;
-        $this->sucess['arguments']=$arguments;
-    }
-
-    private function chcekData() :void
+    protected function initialize(EntityManagerInterface $entityManager, int $id): void
     {
-        if(!$$this->entity) {
-            throw new \Exception("form is not define in controller ".get_class($this)."!");
+        $this->entityManager = $entityManager;
+        $this->id = $id;
+        $this->repository = $this->entityManager->getRepository($this->entity);
+        $this->redirect = new Redirect();
+        $this->flash = new Flash($this);
+        $this->checkData();
+    }
+
+    protected function beforeDelete(): void {}
+    protected function afterDelete(): void {}
+    protected function setRedirect(): void {}
+    protected function setFlashMessage(): void {}
+
+    private function executeRedirect(): RedirectResponse
+    {
+        $this->setRedirect();
+
+        if (!($this->redirect->isRedirect() || $this->redirectTo)) {
+            throw new \Exception("Set redirectTo!");
+        }
+
+        return $this->redirect->isRedirect() ? $this->redirectToRoute($this->redirect->getName(), $this->redirect->getAttributes()) : $this->redirectToRoute($this->redirectTo);
+    }
+
+    private function deleteAction(): RedirectResponse
+    {
+        $this->delete();
+        $this->checkFlash();
+        return $this->executeRedirect();
+    }
+
+    private function checkFlash(): void
+    {
+        $this->setFlashMessage();
+        if ($this->flash->isFlash()) {
+            $this->addFlash(
+                $this->flash->getType(),
+                $this->flash->getMessage()
+            );
         }
     }
 
-    protected function onAfterBefore():void{}
+    private function delete(): void
+    {
+        $this->beforeDelete();
+        $this->entityManager->remove($this->item);
+        $this->entityManager->flush();
+        $this->afterDelete();
+    }
 
-    protected function onAfterDelete():void{}
+    private function checkData(): void
+    {
+        $item = $this->entityManager->getRepository($this->entity)->find($this->id);
+
+        if (!$item) {
+            throw $this->createNotFoundException('Not found with id: ' . $this->id);
+        }
+
+        $this->item = $item;
+
+        if (!$this->entity) {
+            throw new \Exception("Entity is not defined in controller " . get_class($this) . "!");
+        }
+    }
 }

@@ -7,7 +7,7 @@ use App\Generic\Web\GenericDetailController;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
-    * @Route("/get/car/{id}", name="car_show")
+    * @Route("/car/get/{id}", name="car_show")
 */
 class CarController extends GenericDetailController
 {
