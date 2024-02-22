@@ -1,53 +1,79 @@
 <?php
+
 namespace App\Generic\Web;
-use App\Generic\Web\GenericInterFace;
-use Doctrine\Persistence\ManagerRegistry;
+
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-abstract class GenericListControllerOld extends AbstractController implements GenericInterFace
-{ 
-    use Generic;
-    protected bool $paginate = false;
-    protected int $perPage = 5;
-    private Request $request;
-    private PaginatorInterface $paginator;
+class GenericListController extends AbstractController
+{
+    protected ?string $entity = null;
+    protected ?int $perPage = null;
+    protected ?string $twig = null;
 
+    private ?array $paginatorData = null;
+    private bool $paginate = false;
 
-    public function __invoke(ManagerRegistry $doctrine,Request $request, PaginatorInterface $paginator): Response
+    protected Request $request;
+    protected EntityManagerInterface $entityManager; 
+    protected PaginatorInterface $paginator;
+    protected ServiceEntityRepository $repository;
+
+    public function __invoke(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): Response
     {
-      $this->paginator = $paginator;
-      return $this->listView($doctrine, $request, $paginator);
+      $this->initialize($request, $entityManager,  $paginator);
+      return $this->list();
     }
 
-    public function listView(ManagerRegistry $doctrine,Request $request, PaginatorInterface $paginator): Response
+    public function list(): Response
+    {    
+        return $this->render($this->twig, $this->getAttributes());
+    }
+
+    protected function initialize(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): void
     {
+        $this->request = $request;
+        $this->entityManager = $entityManager;
         $this->paginator = $paginator;
-        return $this->baseView($doctrine,$request);
+        $this->repository = $this->entityManager->getRepository($this->entity);
+        $this->paginate = ($this->perPage !== null && $this->perPage !== 0);
     }
 
-    public function onQuerySet(ServiceEntityRepository $entityManager)
+    protected function beforeQuery() : void {}
+
+    protected function afterQuery() : void{}
+
+    protected function onSetAttribut(){
+      return [];
+    }
+
+    protected function onQuerySet() : array
     {
-        return $entityManager->findAll();
+       return $this->repository->findAll();
     }
 
-    private function preaperQuerySet($entityManager)
+    private function getQuery() : mixed
     {
-       $data= $entityManager->getRepository($this->entity);
-       $query = $this->onQuerySet($data);
-       if ($this->paginate){
-        return $this->paginator->paginate(
-            $query,
-            $this->request->query->getInt('page', 1),
-            $this->perPage
-        );
-      }else{
-        return $query;
-      }
+        $this->beforeQuery(); 
+        $queryBuilder = $this->onQuerySet();
+        $pagination = $this->paginator->paginate($queryBuilder,$this->request->query->getInt('page', 1),$this->perPage);
+        $this->afterQuery(); 
+
+        $this->paginatorData = $pagination->getPaginationData();
+    
+        return ($this->perPage !== null && $this->perPage !== 0) ? $pagination : $queryBuilder; 
     }
 
-    public function setData(): void {}
+    private function getAttributes() : array
+    {
+        $attributes['object'] = $this->getQuery();
+        $attributes['paginate'] = $this->paginate;
+        $attributes['paginatorData'] = $this->paginatorData;
+
+        return array_merge($attributes, $this->onSetAttribut());
+    }
 }

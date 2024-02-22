@@ -1,4 +1,5 @@
 {% block body %}
+<h2>{{title}}</h2>
 <ul>
     {% for el in object %}
             <li>
@@ -6,5 +7,9 @@
             </li>
     {% endfor %}
 </ul>
-{{ knp_pagination_render(object) }}
+
+{% if paginate %}
+    {{ knp_pagination_render(object) }}
+{% endif %}
+
 {% endblock %}
