@@ -33,7 +33,13 @@ class GenericDetailController extends AbstractController
     private function getQuery(): ?object
     {
         $this->beforeQuery();
+
         $queryBuilder = $this->repository->find($this->id);
+
+        if (!$queryBuilder) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
         $this->afterQuery();
 
         return $queryBuilder;
