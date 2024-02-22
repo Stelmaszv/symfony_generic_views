@@ -27,11 +27,6 @@ class GenericListController extends AbstractController
         return $this->listAction();
     }
 
-    public function listAction(): Response
-    {
-        return $this->render($this->twig, $this->getAttributes());
-    }
-
     protected function initialize(Request $request, EntityManagerInterface $entityManager, PaginatorInterface $paginator): void
     {
         $this->checkData();
@@ -66,5 +61,10 @@ class GenericListController extends AbstractController
         $attributes['paginatorData'] = $this->paginatorData;
 
         return array_merge($attributes, $this->onSetAttribute());
+    }
+
+    private function listAction(): Response
+    {
+        return $this->render($this->twig, $this->getAttributes());
     }
 }
