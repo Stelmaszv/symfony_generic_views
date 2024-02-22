@@ -1,0 +1,10 @@
+{% block body %}
+<ul>
+    {% for el in object %}
+            <li>
+                {{ el.name }}
+            </li>
+    {% endfor %}
+</ul>
+{{ knp_pagination_render(object) }}
+{% endblock %}
