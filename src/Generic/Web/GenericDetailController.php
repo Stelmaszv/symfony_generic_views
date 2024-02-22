@@ -30,7 +30,7 @@ class GenericDetailController extends AbstractController
         $this->repository = $this->entityManager->getRepository($this->entity);
     }
 
-    private function getQuery(): object
+    private function getQuery(): ?object
     {
         $this->beforeQuery();
         $queryBuilder = $this->repository->find($this->id);
