@@ -2,9 +2,7 @@
 
 namespace App\Controller\Web;
 
-
 use App\Entity\Cars;
-use App\Generic\Web\GenericFormController;
 use App\Generic\Web\GenericDeleteController;
 use Symfony\Component\Routing\Annotation\Route;
 

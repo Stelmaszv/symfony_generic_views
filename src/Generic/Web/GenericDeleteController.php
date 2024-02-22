@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Generic\Web;
 
 use App\Generic\Web\Flash;
-
 use App\Generic\Web\Redirect;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
