@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 
-class GenericDetailController extends AbstractController implements GenericInterFace, GenericSetDataInterFace
+class GenericDetailController2 extends AbstractController implements GenericInterFace, GenericSetDataInterFace
 {
     use Generic;
     private int $id;
