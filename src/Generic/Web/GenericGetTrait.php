@@ -11,12 +11,12 @@ trait GenericGetTrait
 
     protected function afterQuery() : void{}
 
-    protected function onSetAttribut() : array
+    protected function onSetAttribute() : array
     {
       return [];
     }
 
-    private function chcekData() : void
+    private function checkData() : void
     {
         if(!$this->entity) {
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
