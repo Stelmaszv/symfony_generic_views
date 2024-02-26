@@ -4,7 +4,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
 use App\Generic\Web\GenericFormController;
 
-class GenericCreateController extends GenericFormController
+class GenericCreateController
 {
     private int $inserdId;
     private object $entityClass; 

@@ -2,7 +2,6 @@
 
 namespace App\Generic\Web;
 
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -12,8 +11,6 @@ class GenericFormController extends AbstractController
 {
     private FormFactoryInterface $formFactory;
     private Request $request;
-    protected Redirect $redirect;
-    protected Flash $flash;
     protected string $form;
     protected string $twig;
 
@@ -21,8 +18,6 @@ class GenericFormController extends AbstractController
     {
         $this->chcekData();
         $this->initialize($formFactory, $request);
-        $this->redirect = new Redirect();
-        $this->flash = new Flash($this);
 
         return $this->formAction();
     }
@@ -43,7 +38,7 @@ class GenericFormController extends AbstractController
             $this->onBeforeValid();
             if ($form->isValid()){
                 $this->onValid();
-                $this->onAfterValid($form);
+                $this->onAfterValid();
             }else{
                 $this->onInValid();
             }
@@ -85,9 +80,14 @@ class GenericFormController extends AbstractController
    }
 
    protected function onSubmittedTrue() : void {}
+
    protected function onSubmittedFalse() : void {}
+
    protected function onValid()  :void {}
+
    protected function onInValid() : void {}
+
    protected function onBeforeValid() : void {}
-   protected function onAfterValid(Form $form) : void {}
+
+   protected function onAfterValid() : void {}
 }

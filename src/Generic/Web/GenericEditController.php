@@ -5,7 +5,7 @@ namespace App\Generic\Web;
 use Symfony\Component\Form\Form;
 use App\Generic\Web\GenericFormController;
 
-class GenericEditController extends GenericFormController
+class GenericEditController
 {
     protected function getQuery(int $id) : mixed
     {
