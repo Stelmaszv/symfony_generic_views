@@ -7,8 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class Flash
 {
     private AbstractController $controller;
-    private ?string $type;
-    private ?string $message;
+    private ?string $type = null;
+    private ?string $message = null;
 
     function __construct(AbstractController $controller)
     {

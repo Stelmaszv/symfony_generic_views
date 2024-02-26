@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Form as SymfonyForm;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class GenericFormController2 extends AbstractController
 {
@@ -19,6 +20,10 @@ class GenericFormController2 extends AbstractController
     protected string $form;
     
     use Generic;
+
+    /**
+     * @Route("/form-external", name="form_external")
+     */
     public function form(Request $request, ManagerRegistry $doctrine) : Response
     {  
         $this->doctrine=$doctrine;
@@ -91,15 +96,15 @@ class GenericFormController2 extends AbstractController
         return [];
     }
 
-    protected function onAfterValid(Form $form) : void{}
+    protected function onAfterValid() : void {}
 
-    protected function onBeforeValid() : void{}
+    protected function onBeforeValid() : void {}
 
-    protected function onSubmittedTrue() : void{}
+    protected function onSubmittedTrue() : void {}
 
-    protected function onSubmittedFalse() : void{}
+    protected function onSubmittedFalse() : void {}
 
-    protected function onValid()  :void{}
+    protected function onValid()  :void {}
 
-    protected function onInValid() : void{}
+    protected function onInValid() : void {}
 }

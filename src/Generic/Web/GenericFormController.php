@@ -2,40 +2,47 @@
 
 namespace App\Generic\Web;
 
-use Symfony\Component\Form\Form;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\Form as SymfonyForm;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GenericFormController extends AbstractController
 {
-    private array $sucess = [];
+    private FormFactoryInterface $formFactory;
     private Request $request;
-    protected ManagerRegistry $doctrine;
+    protected Redirect $redirect;
+    protected Flash $flash;
     protected string $form;
-    
-    use Generic;
-    public function form(Request $request, ManagerRegistry $doctrine) : Response
-    {  
-        $this->doctrine=$doctrine;
-        $this->request=$request;
-        $this->setData();
+    protected string $twig;
+
+    public function __invoke(FormFactoryInterface $formFactory, Request $request): Response
+    {
         $this->chcekData();
-        $form = $this->getForm($request)->handleRequest($request);
+        $this->initialize($formFactory, $request);
+        $this->redirect = new Redirect();
+        $this->flash = new Flash($this);
+
+        return $this->formAction();
+    }
+
+    protected function initialize(FormFactoryInterface $formFactory, Request $request): void
+    {
+        $this->formFactory = $formFactory;
+        $this->request = $request;
+    }
+    
+   public function formAction() : Response
+   {
+       $form = $this->formFactory->create($this->form);
+       $form->handleRequest($this->request);
 
         if ($form->isSubmitted()){
             $this->onSubmittedTrue();
+            $this->onBeforeValid();
             if ($form->isValid()){
-                $this->onBeforeValid();
                 $this->onValid();
-                $this->onAfterValid($form);
-                if ($this->sucess){
-                    return $this->extuteSucessUrl();
-                }
+                $this->onAfterValid();
             }else{
                 $this->onInValid();
             }
@@ -43,63 +50,43 @@ class GenericFormController extends AbstractController
             $this->onSubmittedFalse();
         }
 
-        return $this->render($this->twig, $this->addAttributes($form));
-    }
+       return $this->render($this->twig, $this->getAttributes());
+   }
 
-    private function extuteSucessUrl() : RedirectResponse 
-    {
-        return $this->redirectToRoute($this->sucess['url'],$this->sucess['arguments']); 
-    }
-
-    private function chcekData() : void
-    {
-        if(!$this->form) {
-            throw new \Exception("Form is not define in controller ".get_class($this)."!");
-        }
-
-        if(!$this->twig) {
-            throw new \Exception("Twing is not define in controller ".get_class($this)."!");
-        }
-    }
-
-    private function addAttributes(SymfonyForm $form) : array
-    {
-        $this->attributes = [
-            'form'=> $form->createView()
-        ];
-
-        return array_merge($this->attributes, $this->onSetAttribut());
-    }
-
-    protected function getForm() : FormInterface
-    {
-        return $this->createForm($this->form);
-    }
-
-    protected function setForm(string $form) :void{
-        $this->form= $form;
-    }
-
-    protected function setSucess(string $url,array $arguments) : void
-    {
-        $this->sucess['url'] = $url;
-        $this->sucess['arguments'] = $arguments;
-    }
-
-    protected function onSetAttribut() : array
-    {
+   protected function onSetAttribute() : array
+   {
         return [];
-    }
+   }
 
-    protected function onAfterValid(Form $form) : void{}
+   private function getAttributes(): array
+   {
+       $attributes['form'] = $this->setFormToAttribute();
 
-    protected function onBeforeValid() : void{}
+       return array_merge($attributes, $this->onSetAttribute());
+   }
 
-    protected function onSubmittedTrue() : void{}
+   private function setFormToAttribute(){
+        $form = $this->formFactory->create($this->form);
+        $form->handleRequest($this->request);
 
-    protected function onSubmittedFalse() : void{}
+        return $form->createView();
+   }
 
-    protected function onValid()  :void{}
+   private function chcekData() : void
+   {
+       if(!$this->form) {
+           throw new \Exception("Form is not define in controller ".get_class($this)."!");
+       }
 
-    protected function onInValid() : void{}
+       if(!$this->twig) {
+           throw new \Exception("Twing is not define in controller ".get_class($this)."!");
+       }
+   }
+
+   protected function onSubmittedTrue() : void {}
+   protected function onSubmittedFalse() : void {}
+   protected function onValid()  :void {}
+   protected function onInValid() : void {}
+   protected function onBeforeValid() : void {}
+   protected function onAfterValid() : void {}
 }
