@@ -16,8 +16,8 @@ class GenericFormController extends AbstractController
 
     public function __invoke(FormFactoryInterface $formFactory, Request $request): Response
     {
-        $this->chcekData();
         $this->initialize($formFactory, $request);
+        $this->checkData();
 
         return $this->formAction();
     }
@@ -28,66 +28,67 @@ class GenericFormController extends AbstractController
         $this->request = $request;
     }
     
-   public function formAction() : Response
-   {
-       $form = $this->formFactory->create($this->form);
-       $form->handleRequest($this->request);
+    protected function formAction(): Response
+    {
+        $form = $this->formFactory->create($this->form);
+        $form->handleRequest($this->request);
 
-        if ($form->isSubmitted()){
+        if ($form->isSubmitted()) {
             $this->onSubmittedTrue();
             $this->onBeforeValid();
-            if ($form->isValid()){
+            if ($form->isValid()) {
                 $this->onValid();
                 $this->onAfterValid();
-            }else{
-                $this->onInValid();
+            } else {
+                $this->onInvalid();
             }
-        }else{
+        } else {
             $this->onSubmittedFalse();
         }
 
-       return $this->render($this->twig, $this->getAttributes());
-   }
+        return $this->render($this->twig, $this->getAttributes());
+    }
 
-   protected function onSetAttribute() : array
-   {
+    protected function onSetAttribute(): array
+    {
         return [];
-   }
+    }
 
-   private function getAttributes(): array
-   {
-       $attributes['form'] = $this->setFormToAttribute();
+    private function getAttributes(): array
+    {
+        $attributes['form'] = $this->setFormToAttribute();
 
-       return array_merge($attributes, $this->onSetAttribute());
-   }
+        return array_merge($attributes, $this->onSetAttribute());
+    }
 
-   private function setFormToAttribute(){
+    private function setFormToAttribute()
+    {
         $form = $this->formFactory->create($this->form);
         $form->handleRequest($this->request);
 
         return $form->createView();
-   }
+    }
 
-   private function chcekData() : void
-   {
-       if(!$this->form) {
-           throw new \Exception("Form is not define in controller ".get_class($this)."!");
-       }
+    private function checkData(): void
+    {
+        if (!$this->form) {
+            throw new \Exception("Form is not defined in controller " . get_class($this) . "!");
+        }
 
-       if(!$this->twig) {
-           throw new \Exception("Twing is not define in controller ".get_class($this)."!");
-       }
-   }
+        if (!$this->twig) {
+            throw new \Exception("Twig is not defined in controller " . get_class($this) . "!");
+        }
+    }
 
-   protected function onSubmittedTrue() : void {}
+    protected function onSubmittedTrue(): void {}
 
-   protected function onSubmittedFalse() : void {}
+    protected function onSubmittedFalse(): void {}
 
-   protected function onValid()  :void {}
+    protected function onValid(): void {}
 
-   protected function onInValid() : void {}
+    protected function onInvalid(): void {}
 
-   protected function onBeforeValid() : void {}
+    protected function onBeforeValid(): void {}
 
-   protected function onAfterValid() : void {}
+    protected function onAfterValid(): void {}
 }
