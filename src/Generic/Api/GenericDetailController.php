@@ -18,7 +18,8 @@ class GenericDetailController extends AbstractController
 
     public function __invoke(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): JsonResponse
     {
-        return $this->get($doctrine, $serializer, $id);
+        $this->initialize($doctrine, $serializer, $id);
+        return $this->getAction();
     }
 
     protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): void
@@ -33,9 +34,8 @@ class GenericDetailController extends AbstractController
         return $repository->find($this->id);
     }
 
-    private function get(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): JsonResponse
+    private function getAction(): JsonResponse
     {
-        $this->initialize($doctrine, $serializer, $id);
         $car = $this->getObject();
 
         if (!$car) {

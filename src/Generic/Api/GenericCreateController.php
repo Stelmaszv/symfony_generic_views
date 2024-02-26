@@ -17,20 +17,21 @@ class GenericCreateController extends AbstractController implements GenricInterf
 
     public function __invoke(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
     {
-        return $this->create($request, $serializer, $validator, $doctrine);
+        $this->initialize($request, $serializer, $validator, $doctrine);
+        return $this->createAction($request, $serializer, $validator, $doctrine);
     }
 
-    protected function initialize(SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): void
+    protected function initialize(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): void
     {
         $this->serializer = $serializer;
         $this->validator = $validator;
         $this->doctrine = $doctrine;
+        $this->request = $request;
     }
 
-    public function create(Request $request, SerializerInterface $serializer, ValidatorInterface $validator, ManagerRegistry $doctrine): JsonResponse
+    public function createAction(): JsonResponse
     {
-        $this->initialize($serializer, $validator, $doctrine);
-        $data = $request->getContent();
+        $data = $this->request->getContent();
 
         if (empty($data)) {
             return $this->respondWithError('No data provided', JsonResponse::HTTP_BAD_REQUEST);

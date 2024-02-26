@@ -17,10 +17,10 @@ class GenericDeleteController extends AbstractController
     public function __invoke(ManagerRegistry $doctrine, int $id): JsonResponse
     {
         $this->initialize($doctrine,$id);
-        return $this->delete($doctrine,$id);
+        return $this->deleteAction($doctrine,$id);
     }
 
-    public function delete(ManagerRegistry $doctrine, int $id): JsonResponse
+    public function deleteAction(ManagerRegistry $doctrine, int $id): JsonResponse
     {
 
         $car = $doctrine->getRepository($this->entity)->find($id);
@@ -30,7 +30,7 @@ class GenericDeleteController extends AbstractController
         }
     
         $this->beforeDelete();
-        $this->deleteAction($car);
+        $this->delete($car);
         $this->afterDelete();
     
         return new JsonResponse(['message' => 'Car deleted successfully'], JsonResponse::HTTP_OK);
@@ -46,7 +46,7 @@ class GenericDeleteController extends AbstractController
 
     protected function afterDelete(): void {}
 
-    private function deleteAction(object $car) : void 
+    private function delete(object $car) : void 
     {
         $entityManager = $this->managerRegistry->getManager();
         $entityManager->remove($car);
