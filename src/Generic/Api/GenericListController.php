@@ -23,7 +23,7 @@ class GenericListController extends AbstractController
     public function __invoke(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
     {
         $this->initialize($doctrine, $serializer, $paginator, $request);
-        return $this->listAction($doctrine, $serializer, $paginator, $request);
+        return $this->listAction();
     }
 
     protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): void
@@ -39,7 +39,7 @@ class GenericListController extends AbstractController
         return $repository->findAll();
     }
 
-    private function listAction(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
+    private function listAction(): JsonResponse
     {
         if(!$this->entity) {
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
