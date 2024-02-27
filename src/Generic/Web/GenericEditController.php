@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class GenericEditController extends AbstractController
 {
@@ -17,6 +18,7 @@ class GenericEditController extends AbstractController
     private int $id;
     protected ?string $entity = null;
     protected object $item;
+    protected ServiceEntityRepository $repository;
 
     public function __invoke(FormFactoryInterface $formFactory,EntityManagerInterface $entityManager,ManagerRegistry $doctrine, Request $request, int $id): Response
     {
@@ -47,25 +49,34 @@ class GenericEditController extends AbstractController
         $this->entityManager = $entityManager;
         $this->request = $request;
         $this->id = $id;
+        $this->repository = $this->entityManager->getRepository($this->entity);
+        $item = $this->repository->find($this->id);
+
+        if (!$item) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
+        $this->item  = $item;
     }
 
     private function editAction(): Response
     {
-        $this->item  = $this->entityManager->getRepository($this->entity)->find($this->id);
         $form = $this->setForm($this->item);
         
-        if ($form->isSubmitted()) {
-            $this->onSubmittedTrue();
-            $this->onBeforeValid();
-            if ($form->isValid()) {
-                $this->onValid();
-                $this->doctrine->getManager()->flush();
-                $this->onAfterValid();
+        if ($this->request->isMethod('POST')) {
+            if ($form->isSubmitted()) {
+                $this->onSubmittedTrue();
+                $this->onBeforeValid();
+                if ($form->isValid()) {
+                    $this->onValid();
+                    $this->doctrine->getManager()->flush();
+                    $this->onAfterValid();
+                } else {
+                    $this->onInvalid();
+                }
             } else {
-                $this->onInvalid();
+                $this->onSubmittedFalse();
             }
-        } else {
-            $this->onSubmittedFalse();
         }
 
         return $this->render($this->twig, $this->getAttributes());

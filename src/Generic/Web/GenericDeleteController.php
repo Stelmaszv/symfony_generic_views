@@ -1,10 +1,8 @@
 <?php
 namespace App\Generic\Web;
 
-use App\Generic\Web\Flash;
-use App\Generic\Web\Redirect;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -14,12 +12,10 @@ class GenericDeleteController extends AbstractController
     protected ?string $redirectTo = null;
     protected EntityManagerInterface $entityManager;
     protected ServiceEntityRepository $repository;
-    protected Redirect $redirect;
-    protected Flash $flash;
     protected object $item;
     protected int $id;
 
-    public function __invoke(EntityManagerInterface $entityManager, int $id): RedirectResponse
+    public function __invoke(EntityManagerInterface $entityManager, int $id): Response
     {
         $this->initialize($entityManager, $id);
         return $this->deleteAction();
@@ -30,8 +26,6 @@ class GenericDeleteController extends AbstractController
         $this->entityManager = $entityManager;
         $this->id = $id;
         $this->repository = $this->entityManager->getRepository($this->entity);
-        $this->redirect = new Redirect();
-        $this->flash = new Flash($this);
         $this->checkData();
     }
 
@@ -40,33 +34,11 @@ class GenericDeleteController extends AbstractController
     protected function setRedirect(): void {}
     protected function setFlashMessage(): void {}
 
-    private function executeRedirect(): RedirectResponse
-    {
-        $this->setRedirect();
-
-        if (!($this->redirect->isRedirect() || $this->redirectTo)) {
-            throw new \Exception("Set redirectTo!");
-        }
-
-        return $this->redirect->isRedirect() ? $this->redirectToRoute($this->redirect->getName(), $this->redirect->getAttributes()) : $this->redirectToRoute($this->redirectTo);
-    }
-
-    private function deleteAction(): RedirectResponse
+    private function deleteAction(): Response
     {
         $this->delete();
-        $this->checkFlash();
-        return $this->executeRedirect();
-    }
 
-    private function checkFlash(): void
-    {
-        $this->setFlashMessage();
-        if ($this->flash->isFlash()) {
-            $this->addFlash(
-                $this->flash->getType(),
-                $this->flash->getMessage()
-            );
-        }
+        return new Response('Object was destroy');
     }
 
     private function delete(): void

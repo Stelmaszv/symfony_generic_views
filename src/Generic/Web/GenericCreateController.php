@@ -50,19 +50,21 @@ class GenericCreateController extends AbstractController
         $entity = new $this->entity();
         $form = $this->setForm($entity);
         $this->item = $entity; 
-
-        if ($form->isSubmitted()) {
-            $this->onSubmittedTrue();
-            $this->onBeforeValid();
-            if ($form->isValid()) {
-                $this->onValid();
-                $this->save();
-                $this->onAfterValid();
+        
+        if ($this->request->isMethod('POST')) {
+            if ($form->isSubmitted()) {
+                $this->onSubmittedTrue();
+                $this->onBeforeValid();
+                if ($form->isValid()) {
+                    $this->onValid();
+                    $this->save();
+                    $this->onAfterValid();
+                } else {
+                    $this->onInvalid();
+                }
             } else {
-                $this->onInvalid();
+                $this->onSubmittedFalse();
             }
-        } else {
-            $this->onSubmittedFalse();
         }
 
         return $this->render($this->twig, $this->getAttributes());
@@ -73,5 +75,4 @@ class GenericCreateController extends AbstractController
         $entityManager->persist($this->item);
         $entityManager->flush();
     } 
-
 }
