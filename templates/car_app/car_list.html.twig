@@ -13,10 +13,11 @@
 <ul>
     {% for el in object %}
         <li>
-            {{ el.name }} <a href="{{path('car_show',{id:el.id})}}">Show</a> <a href="{{path('delete_car',{id:el.id})}}">Delete</a> <a href="{{path('api_car',{id:el.id})}}">API</a>
+            {{ el.name }} <a href="{{path('car_show',{id:el.id})}}">Show</a> 
+            <a href="{{path('delete_car',{id:el.id})}}">Delete</a> 
+            <a href="{{path('api_car',{id:el.id})}}">API</a>
+            <a href="{{path('edit_car',{id:el.id})}}">Edit</a>
         </li>
-
-
 
     {% endfor %}
 </ul>

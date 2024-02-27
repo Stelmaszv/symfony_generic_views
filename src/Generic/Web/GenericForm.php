@@ -26,10 +26,16 @@ trait GenericForm
 
     private function setFormToAttribute()
     {
-        $form = $this->formFactory->create($this->form);
+        return $this->setForm($this->item)->createView();
+    }
+
+    private function setForm(object $entetiy) : mixed 
+    {        
+        $form = $this->formFactory->create($this->form, $entetiy);
+
         $form->handleRequest($this->request);
 
-        return $form->createView();
+        return $form;
     }
 
     protected function onSubmittedTrue(): void {}
