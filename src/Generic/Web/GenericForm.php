@@ -2,7 +2,6 @@
 
 namespace App\Generic\Web;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
