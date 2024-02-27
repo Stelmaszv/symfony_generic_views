@@ -45,7 +45,7 @@ class GenericCreateController extends AbstractController
         }
     }
 
-    public function createAction(): Response
+    private function createAction(): Response
     {
         $entity = new $this->entity();
         $form = $this->createForm($this->form, $entity);
