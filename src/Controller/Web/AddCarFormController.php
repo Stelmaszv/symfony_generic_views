@@ -8,12 +8,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
-    * @Route("/form", name="form_external")
+    * @Route("/form", name="form")
 */
 class AddCarFormController extends GenericFormController
 {
-    protected string $form = Car::class;
-    protected string $twig = 'car_app/car_form.twig';
+    protected ?string $form = Car::class;
+    protected ?string $twig = 'car_app/car_form.twig';
 
     protected function onAfterValid() : void {
 

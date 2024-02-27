@@ -1,42 +1,78 @@
 <?php
+
 namespace App\Generic\Web;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormInterface;
-use App\Generic\Web\GenericFormController;
 
-class GenericCreateController
+use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+class GenericCreateController extends AbstractController
 {
-    private int $inserdId;
-    private object $entityClass; 
+    use GenericForm;
+    
+    private ManagerRegistry $doctrine; 
+    protected ?string $entity = null;
+    protected object $item;
 
-    protected function getForm() : FormInterface
+    public function __invoke(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request): Response
     {
-        $this->entityClass = new $this->entity();
-        return $this->createForm($this->form,$this->entityClass);
+        $this->initialize($formFactory, $doctrine, $request);
+        $this->checkData();
+
+        return $this->createAction();
     }
 
-    protected function onAfterValid(Form $form) : void
-    {
-        $this->onBeforeSave();
-        $em = $this->doctrine->getManager();
-        $em->persist($this->entityClass);
-        $em->flush();
-        $this->inserdId = $this->entityClass->getId();
-        $this->onAfterSaveSave();
+    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request){
+        $this->doctrine = $doctrine;
+        $this->request = $request;
+        $this->formFactory = $formFactory;
     }
 
-    protected function createdUrl(string $url) : void
+    private function checkData(): void
     {
-       $this->setSucess(
-            $url,[
-                'id' => $this->inserdId
-            ]
-        );
+        if (!$this->form) {
+            throw new \Exception("Form is not defined in controller " . get_class($this) . "!");
+        }
+
+        if (!$this->entity) {
+            throw new \Exception("Entity is not defined in controller " . get_class($this) . "!");
+        }
+
+        if (!$this->twig) {
+            throw new \Exception("Twig is not defined in controller " . get_class($this) . "!");
+        }
     }
 
-    protected function onAfterSaveSave() : void {}
+    public function createAction(): Response
+    {
+        $entity = new $this->entity();
+        $form = $this->createForm($this->form, $entity);
+        $form->handleRequest($this->request);
+        $this->item = $entity; 
 
-    protected function onBeforeSave() : void {}
+        if ($form->isSubmitted()) {
+            $this->onSubmittedTrue();
+            $this->onBeforeValid();
+            if ($form->isValid()) {
+                $this->onValid();
+                $this->save();
+                $this->onAfterValid();
+            } else {
+                $this->onInvalid();
+            }
+        } else {
+            $this->onSubmittedFalse();
+        }
 
-    public function setData() : void {}
+        return $this->render($this->twig, $this->getAttributes());
+    }
+
+    private function save() : void {
+        $entityManager = $this->doctrine->getManager();
+        $entityManager->persist($this->item);
+        $entityManager->flush();
+    } 
+
 }

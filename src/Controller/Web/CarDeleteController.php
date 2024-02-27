@@ -12,13 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CarDeleteController  extends GenericDeleteController
 {
     protected ?string $entity = Cars::class; 
-
-    protected function setRedirect() : void {
-        $this->redirect->setName('car_show');
-        $this->redirect->setAttributes([
-            "id" => 32
-        ]);
-    }
+    protected ?string $redirectTo = 'cars_list';
 
     protected function setFlashMessage() : void {
         $this->flash->setType('notice');

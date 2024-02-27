@@ -9,10 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GenericFormController extends AbstractController
 {
-    private FormFactoryInterface $formFactory;
-    private Request $request;
-    protected string $form;
-    protected string $twig;
+    use GenericForm; 
 
     public function __invoke(FormFactoryInterface $formFactory, Request $request): Response
     {
@@ -49,26 +46,6 @@ class GenericFormController extends AbstractController
         return $this->render($this->twig, $this->getAttributes());
     }
 
-    protected function onSetAttribute(): array
-    {
-        return [];
-    }
-
-    private function getAttributes(): array
-    {
-        $attributes['form'] = $this->setFormToAttribute();
-
-        return array_merge($attributes, $this->onSetAttribute());
-    }
-
-    private function setFormToAttribute()
-    {
-        $form = $this->formFactory->create($this->form);
-        $form->handleRequest($this->request);
-
-        return $form->createView();
-    }
-
     private function checkData(): void
     {
         if (!$this->form) {
@@ -79,16 +56,4 @@ class GenericFormController extends AbstractController
             throw new \Exception("Twig is not defined in controller " . get_class($this) . "!");
         }
     }
-
-    protected function onSubmittedTrue(): void {}
-
-    protected function onSubmittedFalse(): void {}
-
-    protected function onValid(): void {}
-
-    protected function onInvalid(): void {}
-
-    protected function onBeforeValid(): void {}
-
-    protected function onAfterValid(): void {}
 }

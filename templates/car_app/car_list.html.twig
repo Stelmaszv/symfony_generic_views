@@ -1,6 +1,9 @@
 {% block body %}
 <h2>{{title}}</h2>
 
+<a href="{{path('add_car')}}">Dodaj</a>
+<a href="{{path('form')}}">Form</a>
+
 {% for message in app.flashes('notice') %}
 <div class="flash-notice">
     {{ message }}
