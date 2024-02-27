@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Generic\ApiInterFace;
+use App\Generic\Api\ApiInterFace;
+use App\Generic\Api\EntityApiGeneric;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Generic\EntityApiGeneric;
 use App\Repository\CompanyRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -83,7 +83,6 @@ class Company implements ApiInterFace
     public function removeCar(Cars $car): self
     {
         if ($this->cars->removeElement($car)) {
-            // set the owning side to null (unless already changed)
             if ($car->getCompany() === $this) {
                 $car->setCompany(null);
             }

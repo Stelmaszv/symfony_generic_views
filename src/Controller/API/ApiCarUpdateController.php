@@ -3,8 +3,6 @@
 namespace App\Controller\API;
 
 use App\Entity\Cars;
-
-
 use App\Validation\DTO\CarDto;
 use App\Generic\Api\GenericUpdateController;
 use Symfony\Component\Routing\Annotation\Route;

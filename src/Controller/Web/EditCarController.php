@@ -17,6 +17,13 @@ class EditCarController  extends GenericEditController
     protected ?string $twig = 'car_app/car_form.twig';
     protected ?string $form = Car::class;
 
+    protected function onSetAttribute() : array 
+    {
+        return [
+            'title' => 'Edit '.$this->item->getName()
+        ];
+    }
+
     protected function onAfterValid() : void {
 
         $this->addFlash(

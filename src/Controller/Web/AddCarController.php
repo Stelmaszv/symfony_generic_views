@@ -15,6 +15,13 @@ class AddCarController extends GenericCreateController
     protected ?string $form = Car::class;
     protected ?string $entity = Cars::class;
 
+    protected function onSetAttribute() : array 
+    {
+        return [
+            'title' => 'Add Car'
+        ];
+    }
+
     protected function onAfterValid() : void {
 
         $this->addFlash(

@@ -15,6 +15,7 @@ class GenericDetailController extends AbstractController
     protected int $id;
     protected EntityManagerInterface $entityManager;
     protected ServiceEntityRepository $repository;
+    protected object $item;
 
     public function __invoke(EntityManagerInterface $entityManager,int $id): Response
     {
@@ -47,8 +48,9 @@ class GenericDetailController extends AbstractController
 
     private function getAttributes(): array
     {
-        $attributes['object'] = $this->getQuery();
-
+        $this->item = $this->getQuery();
+        $attributes['object'] = $this->item;
+        
         return array_merge($attributes, $this->onSetAttribute());
     }
 

@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Generic\ApiInterFace;
+use App\Generic\Api\ApiInterFace;
 use Doctrine\ORM\Mapping as ORM;
-use App\Generic\EntityApiGeneric;
+use App\Generic\Api\EntityApiGeneric;
 use App\Repository\CarsRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 

@@ -13,4 +13,11 @@ class CarController extends GenericDetailController
 {
     protected ?string $entity = Cars::class;
     protected ?string $twig = 'car_app/car_detail.twig';
+
+    protected function onSetAttribute() : array 
+    {
+        return [
+            'title' => $this->item->getName()
+        ];
+    }
 }
