@@ -2,9 +2,10 @@
 
 namespace App\Validation\DTO;
 
+use App\Generic\Api\Interfaces\DTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class CarDto
+class CarDto implements DTO
 {
     /**
      * @Assert\NotNull

@@ -3,8 +3,8 @@
 namespace App\Controller\API;
 
 use App\Entity\Cars;
-use App\Generic\Api\GenericDeleteController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\Api\Controllers\GenericDeleteController;
 
 /**
     * @Route("/api/car/{id}", name="car_delete", methods={"DELETE"})

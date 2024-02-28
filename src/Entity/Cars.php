@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use App\Generic\Api\ApiInterFace;
+
+
+use App\Entity\Company;
 use Doctrine\ORM\Mapping as ORM;
-use App\Generic\Api\EntityApiGeneric;
 use App\Repository\CarsRepository;
+use App\Generic\Api\Trait\EntityApiGeneric;
+use App\Generic\Api\Interfaces\ApiInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CarsRepository::class)]
-class Cars implements ApiInterFace
+class Cars implements ApiInterface
 {
     use EntityApiGeneric;
     

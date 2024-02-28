@@ -3,8 +3,8 @@
 namespace App\Controller\API;
 
 use App\Entity\Cars;
-use App\Generic\Api\GenericDetailController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\Api\Controllers\GenericDetailController;
 
 /**
     * @Route("api/car/{id}", name="api_car", methods={"GET"})

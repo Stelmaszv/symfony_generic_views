@@ -2,16 +2,17 @@
 
 namespace App\Entity;
 
-use App\Generic\Api\ApiInterFace;
-use App\Generic\Api\EntityApiGeneric;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+
 use App\Repository\CompanyRepository;
+use App\Generic\Api\Trait\EntityApiGeneric;
 use Doctrine\Common\Collections\Collection;
+use App\Generic\Api\Interfaces\ApiInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-class Company implements ApiInterFace
+class Company implements ApiInterface
 {
     use EntityApiGeneric;
     #[ORM\Id]

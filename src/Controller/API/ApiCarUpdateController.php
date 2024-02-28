@@ -4,8 +4,8 @@ namespace App\Controller\API;
 
 use App\Entity\Cars;
 use App\Validation\DTO\CarDto;
-use App\Generic\Api\GenericUpdateController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\Api\Controllers\GenericUpdateController;
 
 /**
  * @Route("/api/car/{id}", name="api_car_update", methods={"PUT"})

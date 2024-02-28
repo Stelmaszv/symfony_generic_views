@@ -5,8 +5,8 @@ namespace App\Controller\API;
 use App\Entity\Cars;
 
 use App\Validation\DTO\CarDto;
-use App\Generic\Api\GenericCreateController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\Api\Controllers\GenericCreateController;
 
 /**
     * @Route("api/car", name="car_add", methods={"POST"})
