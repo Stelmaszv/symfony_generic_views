@@ -1,16 +1,18 @@
 <?php
-
 namespace App\Entity;
 
-use App\Repository\CompanyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CompanyRepository;
+use App\Generic\Api\Trait\EntityApiGeneric;
+use Doctrine\Common\Collections\Collection;
+use App\Generic\Api\Interfaces\ApiInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-class Company
+class Company implements ApiInterface
 {
+    use EntityApiGeneric;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -20,7 +22,7 @@ class Company
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $Description = null;
+    private ?string $description = null;
 
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Cars::class)]
     private Collection $cars;
@@ -49,12 +51,12 @@ class Company
 
     public function getDescription(): ?string
     {
-        return $this->Description;
+        return $this->description;
     }
 
-    public function setDescription(?string $Description): self
+    public function setDescription(?string $description): self
     {
-        $this->Description = $Description;
+        $this->description = $description;
 
         return $this;
     }
@@ -80,12 +82,16 @@ class Company
     public function removeCar(Cars $car): self
     {
         if ($this->cars->removeElement($car)) {
-            // set the owning side to null (unless already changed)
             if ($car->getCompany() === $this) {
                 $car->setCompany(null);
             }
         }
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?? '';
     }
 }

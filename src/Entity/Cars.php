@@ -1,19 +1,30 @@
 <?php
-
 namespace App\Entity;
 
-use App\Repository\CarsRepository;
+use App\Entity\Company;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CarsRepository;
+use App\Generic\Api\Trait\EntityApiGeneric;
+use App\Generic\Api\Interfaces\ApiInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CarsRepository::class)]
-class Cars
+class Cars implements ApiInterface
 {
+    use EntityApiGeneric;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    /**
+     * @Groups("api")
+     */
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    /**
+     * @Groups("api")
+     */
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'cars')]
@@ -36,9 +47,12 @@ class Cars
         return $this;
     }
 
-    public function getCompany(): ?Company
+    /**
+     * @Groups("api")
+     */
+    public function getCompany(): ?array
     {
-        return $this->company;
+       return $this->setApiGroup(new Company);
     }
 
     public function setCompany(?Company $company): self

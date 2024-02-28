@@ -1,0 +1,6 @@
+# config/packages/serialization.yaml
+
+framework:
+    serializer:
+        default_context:
+            groups: ['api']
