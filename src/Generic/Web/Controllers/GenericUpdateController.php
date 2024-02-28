@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-class GenericEditController extends AbstractController
+class GenericUpdateController extends AbstractController
 {
     use GenericForm;
     private ManagerRegistry $doctrine;

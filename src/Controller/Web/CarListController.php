@@ -23,6 +23,10 @@ class CarListController extends GenericListController
 
     protected function onQuerySet(): mixed
     {
-        return $this->repository->getCarByName($this->request->get('name'));
+        if($this->request->get('name') !== null){
+            return $this->repository->getCarByName($this->request->get('name'));
+        }
+        
+        return $this->repository->findAll();
     }
 }

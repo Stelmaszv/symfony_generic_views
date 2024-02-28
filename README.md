@@ -68,9 +68,9 @@ Aby to zmienić, należy nadpisać metodę `onQuerySet()`. W tej metodzie można
 
 W każdym widoku webowym można nadpisać metodę `onSetAttribute`. Jest ona wykorzystywana do przekazywania wartości do widoku. Nie ma potrzeby podawania podstawowych informacji, takich jak lista czy obiekt. Metoda służy tylko do dodatkowych informacji, np. tytułu strony i innych wartości.
 
-**Klasa `GenericCreateController` jest dostępna zarówno dla API, jak i dla strony web. Służy do tworzenia nowych obiektów w bazie danych.** Sposób jej użycia jest podobny do `GenericListController`, ale w przypadku strony web należy podać w atrybucie `form` klasę formularza w formie `Formularz::class`. Klasa posiada metody `onAfterValid` i `onValid`, które służą do określania, co się wydarzy przed lub po walidacji.
+**Klasa `GenericCreateController` jest dostępna zarówno dla API, jak i dla strony web.** Służy do tworzenia nowych obiektów w bazie danych**.** Sposób jej użycia jest podobny do `GenericListController`, ale w przypadku strony web należy podać w atrybucie `form` klasę formularza w formie `Formularz::class`. Klasa posiada metody `onAfterValid` i `onValid`, które służą do określania, co się wydarzy przed lub po walidacji.
 
-Sposób użycia `GenericEditController` jest taki sam jak `GenericCreateController`, z tą różnicą, że ten kontroler przeznaczony jest do aktualizacji danych istniejącego rekordu.
+Sposób użycia `GenericUpdateController` jest taki sam jak `GenericCreateController`, z tą różnicą, że ten kontroler przeznaczony jest do aktualizacji danych istniejącego rekordu.
 
 **Obie klasy są przystosowane do API.** Aby wykonać walidację w API, należy do atrybutu `DTO` przypisać obiekt DTO i w nim określić sposób walidacji.
 
