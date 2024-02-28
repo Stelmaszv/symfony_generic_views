@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controller\API;
 
 use App\Entity\Cars;

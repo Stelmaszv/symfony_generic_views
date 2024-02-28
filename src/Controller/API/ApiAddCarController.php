@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Controller\API;
 
 use App\Entity\Cars;
-
 use App\Validation\DTO\CarDto;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericCreateController;
