@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Generic\Api\Controllers\GenericUpdateController;
 
 /**
- * @Route("/api/car/{id}", name="api_car_update", methods={"PUT"})
+    * @Route("/api/car/{id}", name="api_car_update", methods={"PUT"})
 */
 class ApiCarUpdateController extends GenericUpdateController
 {
