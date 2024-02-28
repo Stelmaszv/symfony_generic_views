@@ -2,9 +2,9 @@
 namespace App\Controller\Web;
 use App\Forms\Car;
 use App\Entity\Cars;
-use App\Generic\Web\GenericCreateController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Generic\Web\Controllers\GenericCreateController;
 
 /**
     * @Route("/add_car", name="add_car")

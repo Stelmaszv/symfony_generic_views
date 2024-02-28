@@ -3,14 +3,14 @@
 namespace App\Controller\Web;
 
 use App\Entity\Cars;
-use App\Generic\Web\GenericDeleteController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Generic\Web\Controllers\GenericDeleteController;
 
 /**
     * @Route("/car/delete/{id}", name="delete_car")
 */
-class CarDeleteController  extends GenericDeleteController
+class CarDeleteController extends GenericDeleteController
 {
     protected ?string $entity = Cars::class; 
     protected ?string $redirectTo = 'cars_list';

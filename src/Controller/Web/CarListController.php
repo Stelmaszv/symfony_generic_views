@@ -1,8 +1,9 @@
 <?php
 namespace App\Controller\Web;
+
 use App\Entity\Cars;
-use App\Generic\Web\GenericListController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\Web\Controllers\GenericListController;
 
 /**
     * @Route("/cars/list", name="cars_list")

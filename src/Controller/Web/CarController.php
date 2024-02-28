@@ -3,8 +3,8 @@
 namespace App\Controller\Web;
 
 use App\Entity\Cars;
-use App\Generic\Web\GenericDetailController;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Generic\Web\Controllers\GenericDetailController;
 
 /**
     * @Route("/car/get/{id}", name="car_show")
