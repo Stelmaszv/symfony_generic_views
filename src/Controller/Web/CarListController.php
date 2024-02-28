@@ -17,7 +17,12 @@ class CarListController extends GenericListController
     protected function onSetAttribute() : array 
     {
         return [
-            'title' => 'Lista Carsów'
+            'title' => 'Lista Samochodów'
         ];
+    }
+
+    protected function onQuerySet(): mixed
+    {
+        return $this->repository->getCarByName($this->request->get('name'));
     }
 }
