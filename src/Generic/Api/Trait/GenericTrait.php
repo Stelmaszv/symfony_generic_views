@@ -3,7 +3,6 @@
 namespace App\Generic\Api\Trait;
 
 use ReflectionClass;
-
 use App\Generic\Api\Interfaces\DTO;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;

@@ -5,7 +5,6 @@ namespace App\Generic\Api\Trait;
 use ReflectionClass;
 use App\Generic\Api\Interfaces\ApiInterface;
 
-
 trait EntityApiGeneric
 {
     public function setApiGroup(ApiInterface $entityObject): ?array

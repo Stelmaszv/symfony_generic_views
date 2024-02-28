@@ -3,7 +3,6 @@
 namespace App\Generic\Api\Controllers;
 
 use Doctrine\Persistence\ManagerRegistry;
-
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

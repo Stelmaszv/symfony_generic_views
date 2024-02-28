@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Generic\Web\Controllers;
 
 use App\Generic\Web\Trait\GenericForm;

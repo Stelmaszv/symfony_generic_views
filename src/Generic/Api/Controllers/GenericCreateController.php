@@ -2,7 +2,6 @@
 
 namespace App\Generic\Api\Controllers;
 
-
 use App\Generic\Api\Trait\GenericTrait;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Generic\Api\Interfaces\ApiInterface;
