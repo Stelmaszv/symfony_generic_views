@@ -4,9 +4,9 @@ namespace App\Generic\Web\Controllers;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Generic\Web\Trait\GenericGetTrait;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class GenericDetailController extends AbstractController
 {
@@ -14,7 +14,7 @@ class GenericDetailController extends AbstractController
 
     protected int $id;
     protected EntityManagerInterface $entityManager;
-    protected ServiceEntityRepository $repository;
+    protected ObjectRepository $repository;
     protected object $item;
 
     public function __invoke(EntityManagerInterface $entityManager,int $id): Response

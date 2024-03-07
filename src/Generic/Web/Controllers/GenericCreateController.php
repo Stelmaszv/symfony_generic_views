@@ -13,20 +13,20 @@ class GenericCreateController extends AbstractController
 {
     use GenericForm;
     
-    private ManagerRegistry $doctrine; 
+    private ManagerRegistry $managerRegistry; 
     protected ?string $entity = null;
     protected object $item;
 
-    public function __invoke(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request): Response
+    public function __invoke(FormFactoryInterface $formFactory, ManagerRegistry $managerRegistry, Request $request): Response
     {
-        $this->initialize($formFactory, $doctrine, $request);
+        $this->initialize($formFactory, $managerRegistry, $request);
         $this->checkData();
 
         return $this->createAction();
     }
 
-    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $doctrine, Request $request){
-        $this->doctrine = $doctrine;
+    protected function initialize(FormFactoryInterface $formFactory, ManagerRegistry $managerRegistry, Request $request){
+        $this->managerRegistry = $managerRegistry;
         $this->request = $request;
         $this->formFactory = $formFactory;
     }
@@ -72,7 +72,7 @@ class GenericCreateController extends AbstractController
     }
 
     private function save() : void {
-        $entityManager = $this->doctrine->getManager();
+        $entityManager = $this->managerRegistry->getManager();
         $entityManager->persist($this->item);
         $entityManager->flush();
     } 

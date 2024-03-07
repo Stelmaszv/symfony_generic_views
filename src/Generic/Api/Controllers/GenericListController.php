@@ -14,29 +14,35 @@ class GenericListController extends AbstractController
 {
     protected ?string $entity = null;
     protected int $perPage = 0;
+    protected ObjectRepository $repository;
     protected ManagerRegistry $managerRegistry;
     private SerializerInterface $serializer;
     private PaginatorInterface $paginator;
     private Request $request;
     private ?array $paginatorData = null;
 
-    public function __invoke(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
+    public function __invoke(ManagerRegistry $managerRegistry, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): JsonResponse
     {
-        $this->initialize($doctrine, $serializer, $paginator, $request);
+        $this->initialize($managerRegistry, $serializer, $paginator, $request);
         return $this->listAction();
     }
 
-    protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): void
+    protected function initialize(ManagerRegistry $managerRegistry, SerializerInterface $serializer, PaginatorInterface $paginator, Request $request): void
     {
-        $this->managerRegistry = $doctrine;
+        $this->managerRegistry = $managerRegistry;
         $this->serializer = $serializer;
         $this->paginator = $paginator;
         $this->request = $request;
+        $this->repository = $this->managerRegistry->getRepository($this->entity);
     }
 
-    protected function onQuerySet(ObjectRepository $repository): array
+    protected function beforeQuery() :void {}
+
+    protected function afterQuery() :void {}
+
+    protected function onQuerySet(): array
     {
-        return $repository->findAll();
+        return $this->repository->findAll();
     }
 
     private function listAction(): JsonResponse
@@ -45,7 +51,11 @@ class GenericListController extends AbstractController
             throw new \Exception("Entity is not define in controller ".get_class($this)."!");
         }
 
-        return new JsonResponse($this->getResponse(), JsonResponse::HTTP_OK);
+        $this->beforeQuery();
+        $respane = $this->getResponse();
+        $this->afterQuery();
+
+        return new JsonResponse($respane, JsonResponse::HTTP_OK);
     }
 
     private function getResponse(): array

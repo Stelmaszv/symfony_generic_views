@@ -16,15 +16,19 @@ class GenericDetailController extends AbstractController
     private SerializerInterface $serializer;
     private int $id = 0;
 
-    public function __invoke(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): JsonResponse
+    public function __invoke(ManagerRegistry $managerRegistry, SerializerInterface $serializer, int $id): JsonResponse
     {
         $this->initialize($doctrine, $serializer, $id);
         return $this->getAction();
     }
 
-    protected function initialize(ManagerRegistry $doctrine, SerializerInterface $serializer, int $id): void
+    protected function beforeQuery() :void {}
+
+    protected function afterQuery() :void {}
+
+    protected function initialize(ManagerRegistry $managerRegistry, SerializerInterface $serializer, int $id): void
     {
-        $this->managerRegistry = $doctrine;
+        $this->managerRegistry = $managerRegistry;
         $this->serializer = $serializer;
         $this->id = $id;
     }
@@ -36,7 +40,9 @@ class GenericDetailController extends AbstractController
 
     private function getAction(): JsonResponse
     {
+        $this->beforeQuery();
         $car = $this->getObject();
+        $this->afterQuery();
 
         if (!$car) {
             return new JsonResponse(['message' => 'Car not found'], JsonResponse::HTTP_NOT_FOUND);

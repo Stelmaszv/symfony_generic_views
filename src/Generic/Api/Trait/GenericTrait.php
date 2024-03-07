@@ -17,8 +17,14 @@ trait GenericTrait
 
     protected SerializerInterface $serializer;
     protected ValidatorInterface $validator;
-    protected ManagerRegistry $doctrine;
+    protected ManagerRegistry $managerRegistry;
     protected Request $request;
+
+    protected function beforeValidation(): void {}
+
+    protected function afterValidation(): void {}
+
+    protected function afterProcessEntity(): void {}
 
     private function deserializeDto(string $data)
     {
@@ -45,16 +51,16 @@ trait GenericTrait
                 $object = $this->getObject($propertyTypeName);
                 $method = 'set' . ucfirst($propertyName);
 
-                if ($object !== null && property_exists($dto, 'company') && $dto->company !== null) {
-                    $objectRepository = $this->doctrine->getRepository($object::class);
-                    $entity->setCompany($objectRepository->find($dto->company));
+                if ($object !== null && property_exists($dto, $propertyName) && $dto->$propertyName !== null) {
+                    $objectRepository = $this->managerRegistry->getRepository($object::class);
+                    $entity->$method($objectRepository->find($dto->$propertyName));
                 } else {
                     $entity->$method($dto->$propertyName);
                 }
             }
         }
 
-        $entityManager = $this->doctrine->getManager();
+        $entityManager = $this->managerRegistry->getManager();
         $entityManager->persist($entity);
         $entityManager->flush();
     }
